@@ -43,7 +43,7 @@ export default function SocketTest() {
                     }
                 })
 
-                socket.on("offer", handleRecieveCall)
+                socket.on("offer", (incoming) => {console.log('offerrr'); handleRecieveCall(incoming); })
 
                 socket.on("answer", handleAnswer)
 
@@ -189,7 +189,7 @@ export default function SocketTest() {
                 <video muted autoPlay="true" ref={ourStreamRef} className='block min-w-[20rem] max-w-[20rem] min-h-[15rem] max-h-[15rem] bg-black'>
                 </video>
 
-                <video muted autoPlay="true" ref={theirStreamRef} className='block min-w-[20rem] max-w-[20rem] min-h-[15rem] max-h-[15rem] bg-black'>
+                <video autoPlay="true" ref={theirStreamRef} className='block min-w-[20rem] max-w-[20rem] min-h-[15rem] max-h-[15rem] bg-black'>
                 </video>
             </div>
         </>

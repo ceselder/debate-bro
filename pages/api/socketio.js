@@ -12,13 +12,13 @@ const ioHandler = (req, res) => {
             socket.broadcast.emit('a user connected')
             socket.on('find match', msg => {
                 const uuid = msg.uuid
+                socket.join(uuid)
                 let matchFound = false
 
                 for (const [key, value] of matchMakingMap) {
                     if (key !== uuid) {
                         console.log(`found match ${key}`)
                         matchMakingMap.delete(key)
-                        socket.join(key)
 
                         //offers mesturen me findMatch, dan offer 
                         //van de parent terugsturen when matched
