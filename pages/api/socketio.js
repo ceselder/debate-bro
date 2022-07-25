@@ -19,10 +19,10 @@ const ioHandler = (req, res) => {
                     if (key !== uuid) {
                         console.log(`found match ${key}`)
                         matchMakingMap.delete(key)
-                        socket.join(key)
 
                         //offers mesturen me findMatch, dan offer 
                         //van de parent terugsturen when matched
+                        socket.emit('matched', {parent: key, child: uuid})
                         io.in(key).emit('matched', {parent: key, child: uuid})
 
                         matchFound = true
