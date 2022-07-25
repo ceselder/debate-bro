@@ -1,0 +1,24 @@
+{
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "next": "latest",
+    "peer": "^0.6.1",
+    "peerjs": "^1.4.6",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "simple-peer": "^9.11.1",
+    "socket.io": "^4.5.1",
+    "socket.io-client": "^4.5.1",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.7",
+    "postcss": "^8.4.14",
+    "tailwindcss": "^3.1.6"
+  }
+}
