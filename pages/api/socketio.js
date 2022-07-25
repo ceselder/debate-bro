@@ -9,7 +9,6 @@ const ioHandler = (req, res) => {
         const io = new Server(res.socket.server)
 
         io.on('connection', socket => {
-            socket.broadcast.emit('a user connected')
             socket.on('find match', msg => {
                 const uuid = msg.uuid
                 socket.join(uuid)
@@ -17,13 +16,15 @@ const ioHandler = (req, res) => {
 
                 for (const [key, value] of matchMakingMap) {
                     if (key !== uuid) {
-                        console.log(`found match ${key}`)
                         matchMakingMap.delete(key)
+                        console.log(`found match ${key}`)
 
                         //offers mesturen me findMatch, dan offer 
                         //van de parent terugsturen when matched
-                        socket.emit('matched', {parent: key, child: uuid})
-                        io.in(key).emit('matched', {parent: key, child: uuid})
+                        const payload = {parent: key, child: uuid}
+
+                        socket.emit('matched', payload)
+                        io.in(key).emit('matched', payload)
 
                         matchFound = true
                         break;
@@ -44,7 +45,6 @@ const ioHandler = (req, res) => {
                 })
 
                 if (!matchFound) {
-                    socket.join(uuid)
                     matchMakingMap.set(uuid, true)
                 }
 

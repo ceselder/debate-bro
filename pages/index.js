@@ -56,10 +56,6 @@ export default function SocketTest() {
                 socket.emit('hello')
             })
 
-            socket.on('a user connected', () => {
-                setEvents(events => [...events, 'Someone joined'])
-            })
-
             socket.on('disconnect', () => {
                 setEvents(events => [...events, 'Disconnected'])
             })
