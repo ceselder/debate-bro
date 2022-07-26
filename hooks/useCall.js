@@ -133,7 +133,7 @@ export default function useCall(uuid, socket)
 
     function handleICECandidateEvent(e) {
         if (e.candidate) {
-            console.log('candidate found')
+            console.log('sending ice candidate...')
             const payload = {
                 target: otherUser.current,
                 candidate: e.candidate,
@@ -143,6 +143,7 @@ export default function useCall(uuid, socket)
     }
 
     function handleNewICECandidateMsg(incoming) {
+        console.log('recieving ice candidate')
         const candidate = new RTCIceCandidate(incoming);
 
         peerRef.current.addIceCandidate(candidate)

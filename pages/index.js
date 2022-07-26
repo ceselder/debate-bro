@@ -34,7 +34,6 @@ export default function SocketTest() {
 
             socket.on('matched', () => {
                 setEvents(ev => [...ev, 'matched!'])
-                console.log('matched!')
             })
     
             socket.on('disconnect', () => {
