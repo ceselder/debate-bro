@@ -30,6 +30,7 @@ export default function SocketTest() {
                 audio: true,
                 video: true,
             }).then(stream => {
+                console.log('got ur media')
                 ourStream.current = stream
                 ourStreamRef.current.srcObject = stream;
 
