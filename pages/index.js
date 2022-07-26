@@ -8,7 +8,7 @@ export default function SocketTest() {
     const [events, setEvents] = useState([])
     const [matched, setMatched] = useState(false)
 
-    const browserSupported = (navigator.mediaDevices == undefined) ? false : true
+    const browserSupported = (navigator == undefined || navigator.mediaDevices == undefined) ? false : true
 
     const ourStream = useRef()
     const socketRef = useRef()
@@ -35,33 +35,32 @@ export default function SocketTest() {
                 ourStream.current = stream
                 ourStreamRef.current.srcObject = stream;
 
+                socket.on('matched', (msg) => {
+                    setEvents(events => [...events, JSON.stringify(msg)])
+                    if (uuid == msg.parent) {
+                        console.log('matched', msg)
+                        otherUser.current = msg.child
+                        callUser(msg.child)
+                    }
+                })
+    
+                socket.on("offer", (incoming) => {console.log('offerrr'); handleRecieveCall(incoming); })
+    
+                socket.on("answer", handleAnswer)
+    
+                socket.on("ice-candidate", handleNewICECandidateMsg)
+    
+    
+                socket.on('connect', () => {
+                    setEvents(events => [...events, 'connected'])
+                    socket.emit('hello')
+                })
+    
+                socket.on('disconnect', () => {
+                    setEvents(events => [...events, 'Disconnected'])
+                })
+
             });
-
-
-            socket.on('matched', (msg) => {
-                setEvents(events => [...events, JSON.stringify(msg)])
-                if (uuid == msg.parent) {
-                    console.log('matched', msg)
-                    otherUser.current = msg.child
-                    callUser(msg.child)
-                }
-            })
-
-            socket.on("offer", (incoming) => {console.log('offerrr'); handleRecieveCall(incoming); })
-
-            socket.on("answer", handleAnswer)
-
-            socket.on("ice-candidate", handleNewICECandidateMsg)
-
-
-            socket.on('connect', () => {
-                setEvents(events => [...events, 'connected'])
-                socket.emit('hello')
-            })
-
-            socket.on('disconnect', () => {
-                setEvents(events => [...events, 'Disconnected'])
-            })
         })
     }, []) // Added [] as useEffect filter so it will be executed only once, when component is mounted
 
