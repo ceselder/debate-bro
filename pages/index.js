@@ -7,7 +7,6 @@ export const SocketContext = createContext();
 const uuid = uuidv4()
 
 export default function SocketTest() {
-
     const [socket, setSocket] = useState(null)
     const [events, setEvents] = useState([])
     const [ourStreamRef, theirStreamRef] = useCall(uuid, socket)
