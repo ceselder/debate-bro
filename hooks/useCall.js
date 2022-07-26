@@ -79,16 +79,21 @@ export default function useCall(uuid, socket)
               ],
         });
 
-        console.log('ICE state: ', peer.iceConnectionState)
         peer.onicecandidate = handleICECandidateEvent;
-        peer.addEventListener('icegatheringstatechange', event => {
-            console.log('ICE gathering state: ', peerRef.current.iceGatheringState) 
-        })
-        peer.addEventListener('iceconnectionstatechange', event => { 
-            console.log('ICE state: ', peerRef.current.iceConnectionState) 
-        })
         peer.ontrack = handleTrackEvent;
         peer.onnegotiationneeded = () => handleNegotiationNeededEvent(userID);
+
+
+        // console.log('ICE state: ', peer.iceConnectionState)
+        // peer.onicecandidate = handleICECandidateEvent;
+        // peer.addEventListener('icegatheringstatechange', event => {
+        //     console.log('ICE gathering state: ', peerRef.current.iceGatheringState) 
+        // })
+        // peer.addEventListener('iceconnectionstatechange', event => { 
+        //     console.log('ICE state: ', peerRef.current.iceConnectionState) 
+        // })
+        // peer.ontrack = handleTrackEvent;
+        // peer.onnegotiationneeded = () => handleNegotiationNeededEvent(userID);
 
         return peer;
     }
