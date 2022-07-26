@@ -8,8 +8,9 @@ export default function SocketTest() {
     const [events, setEvents] = useState([])
     const [matched, setMatched] = useState(false)
 
-    const ourStream = useRef()
+    const browserSupported = (navigator.mediaDevices == undefined) ? false : true
 
+    const ourStream = useRef()
     const socketRef = useRef()
     const ourStreamRef = useRef()
     const theirStreamRef = useRef()
@@ -34,23 +35,24 @@ export default function SocketTest() {
                 ourStream.current = stream
                 ourStreamRef.current.srcObject = stream;
 
-
-                socket.on('matched', (msg) => {
-                    setEvents(events => [...events, JSON.stringify(msg)])
-                    if (uuid == msg.parent) {
-                        console.log('matched', msg)
-                        otherUser.current = msg.child
-                        callUser(msg.child)
-                    }
-                })
-
-                socket.on("offer", (incoming) => {console.log('offerrr'); handleRecieveCall(incoming); })
-
-                socket.on("answer", handleAnswer)
-
-                socket.on("ice-candidate", handleNewICECandidateMsg)
-
             });
+
+
+            socket.on('matched', (msg) => {
+                setEvents(events => [...events, JSON.stringify(msg)])
+                if (uuid == msg.parent) {
+                    console.log('matched', msg)
+                    otherUser.current = msg.child
+                    callUser(msg.child)
+                }
+            })
+
+            socket.on("offer", (incoming) => {console.log('offerrr'); handleRecieveCall(incoming); })
+
+            socket.on("answer", handleAnswer)
+
+            socket.on("ice-candidate", handleNewICECandidateMsg)
+
 
             socket.on('connect', () => {
                 setEvents(events => [...events, 'connected'])
