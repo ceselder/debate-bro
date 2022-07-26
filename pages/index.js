@@ -4,9 +4,9 @@ import io from 'socket.io-client'
 import useCall from '../hooks/useCall';
 
 export const SocketContext = createContext();
+const uuid = uuidv4()
 
 export default function SocketTest() {
-    const uuid = uuidv4()
 
     const [socket, setSocket] = useState(null)
     const [events, setEvents] = useState([])
