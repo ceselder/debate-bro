@@ -26,15 +26,12 @@ export default function SocketTest() {
         fetch('/api/socketio').finally(() => {
             const socket = io()
             socketRef.current = socket
-            if (navigator.mediaDevices !== undefined)
-            {
-                setMediaDevicesSupported(true)
-            }
 
             navigator.mediaDevices.getUserMedia({
                 audio: true,
                 video: true,
             }).then(stream => {
+                setMediaDevicesSupported(true)
                 console.log('got ur media')
                 ourStream.current = stream
                 ourStreamRef.current.srcObject = stream;
