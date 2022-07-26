@@ -176,6 +176,7 @@ export default function SocketTest() {
             <div className='h-full w-full flex flex-col'>
                 <div className='mt-20 text-center flex flex-col self-center'>
                     <p>Socket.io ({uuid})</p>
+                    <p>Audio Supported: {mediaDevicesSupported}</p>
                     <div onClick={findOpponent} className='p-2 bg-gray-500 block rounded-lg hover:cursor-pointer'>
                         Find Opponent
                     </div>
