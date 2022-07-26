@@ -27,41 +27,51 @@ export default function SocketTest() {
             const socket = io()
             socketRef.current = socket
 
-            navigator.mediaDevices.getUserMedia({
-                audio: true,
-                video: true,
-            }).then(stream => {
-                setMediaDevicesSupported(true)
-                console.log('got ur media')
-                ourStream.current = stream
-                ourStreamRef.current.srcObject = stream;
+            if (navigator === undefined || navigator.mediaDevices === undefined)
+            {
+                setEvents(events => [...events, 'media devices undefined!'])
+                setMediaDevicesSupported(false)
+            }
+            else
+            {
+                navigator.mediaDevices.getUserMedia({
+                    audio: true,
+                    video: true,
+                }).then(stream => {
+                    setMediaDevicesSupported(true)
+                    console.log('got ur media')
+                    ourStream.current = stream
+                    ourStreamRef.current.srcObject = stream;
+    
+                    socket.on('matched', (msg) => {
+                        setEvents(events => [...events, JSON.stringify(msg)])
+                        if (uuid == msg.parent) {
+                            console.log('matched', msg)
+                            otherUser.current = msg.child
+                            callUser(msg.child)
+                        }
+                    })
+        
+                    socket.on("offer", (incoming) => {console.log('offerrr'); handleRecieveCall(incoming); })
+        
+                    socket.on("answer", handleAnswer)
+        
+                    socket.on("ice-candidate", handleNewICECandidateMsg)
+        
+        
+                    socket.on('connect', () => {
+                        setEvents(events => [...events, 'connected'])
+                        socket.emit('hello')
+                    })
+        
+                    socket.on('disconnect', () => {
+                        setEvents(events => [...events, 'Disconnected'])
+                    })
+    
+                });
+            }
 
-                socket.on('matched', (msg) => {
-                    setEvents(events => [...events, JSON.stringify(msg)])
-                    if (uuid == msg.parent) {
-                        console.log('matched', msg)
-                        otherUser.current = msg.child
-                        callUser(msg.child)
-                    }
-                })
-    
-                socket.on("offer", (incoming) => {console.log('offerrr'); handleRecieveCall(incoming); })
-    
-                socket.on("answer", handleAnswer)
-    
-                socket.on("ice-candidate", handleNewICECandidateMsg)
-    
-    
-                socket.on('connect', () => {
-                    setEvents(events => [...events, 'connected'])
-                    socket.emit('hello')
-                })
-    
-                socket.on('disconnect', () => {
-                    setEvents(events => [...events, 'Disconnected'])
-                })
-
-            });
+            
         })
     }, []) // Added [] as useEffect filter so it will be executed only once, when component is mounted
 
@@ -175,7 +185,7 @@ export default function SocketTest() {
             <div className='h-full w-full flex flex-col'>
                 <div className='mt-20 text-center flex flex-col self-center'>
                     <p>Socket.io ({uuid})</p>
-                    <p>Media Devices Supported: {mediaDevicesSupported}</p>
+                    <p>Media Devices Supported: {mediaDevicesSupported ? 'true' : 'false'}</p>
                     <div onClick={findOpponent} className='p-2 bg-gray-500 block rounded-lg hover:cursor-pointer'>
                         Find Opponent
                     </div>
