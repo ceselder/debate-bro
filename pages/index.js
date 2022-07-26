@@ -43,12 +43,12 @@ export default function SocketTest() {
                     ourStream.current = stream
                     ourStreamRef.current.srcObject = stream;
     
-                    socket.on('matched', (msg) => {
+                    socket.on('matched', ({ parent, child }) => {
                         setEvents(events => [...events, JSON.stringify(msg)])
-                        if (uuid == msg.parent) {
+                        if (uuid == parent) {
                             console.log('matched', msg)
-                            otherUser.current = msg.child
-                            callUser(msg.child)
+                            otherUser.current = child
+                            callUser(child)
                         }
                     })
         
