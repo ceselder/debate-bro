@@ -148,9 +148,9 @@ export default function useCall(uuid, socket)
             .catch(e => console.log('error', e));
     }
 
-    function handleTrackEvent(e) {
-        console.log(e.streams)
-        theirStreamRef.current.srcObject = e.streams[0];
+    function handleTrackEvent(event) {
+        const [remoteStream] = event.streams;
+        theirStreamRef.current.srcObject = remoteStream;
     };
 
     return [ourStreamRef, theirStreamRef]
