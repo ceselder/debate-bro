@@ -8,14 +8,14 @@ export default function SocketTest() {
     const [events, setEvents] = useState([])
     const [matched, setMatched] = useState(false)
 
-    const browserSupported = (navigator == undefined || navigator.mediaDevices == undefined) ? false : true
-
     const ourStream = useRef()
     const socketRef = useRef()
     const ourStreamRef = useRef()
     const theirStreamRef = useRef()
     const peerRef = useRef()
     const otherUser = useRef()
+
+    const [mediaDevicesSupported, setMediaDevicesSupported] = useState(false)
 
     async function findOpponent() {
         socketRef.current.emit('find match', { uuid: uuid })
@@ -26,6 +26,8 @@ export default function SocketTest() {
         fetch('/api/socketio').finally(() => {
             const socket = io()
             socketRef.current = socket
+
+            setMediaDevicesSupported(navigator.mediaDevices != undefined)
 
             navigator.mediaDevices.getUserMedia({
                 audio: true,
