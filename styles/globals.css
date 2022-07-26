@@ -1,3 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+    font-family: 'MyWebFont';
+    src:  url('/fonts/simvoni.ttf') format('truetype');
+  }
+
+.text-simvoni
+{
+    font-family: 'MyWebFont';
+}

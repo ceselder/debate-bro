@@ -1,8 +1,9 @@
-import { useRef, useEffect } from "react"
+import { useRef, useState, useEffect } from "react"
 import io from 'socket.io-client'
 
 export default function useCall(uuid, socket)
 {
+    const [callConnected, setCallConnected] = useState(false)
     const ourUuid = uuid
     const ourStream = useRef()
     const ourStreamRef = useRef()
@@ -163,7 +164,8 @@ export default function useCall(uuid, socket)
     function handleTrackEvent(event) {
         const [remoteStream] = event.streams;
         theirStreamRef.current.srcObject = remoteStream;
+        setCallConnected(true)
     };
 
-    return [ourStreamRef, theirStreamRef]
+    return [callConnected, ourStreamRef, theirStreamRef]
 }

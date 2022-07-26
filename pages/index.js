@@ -9,9 +9,8 @@ const uuid = uuidv4()
 export default function SocketTest() {
     const [socket, setSocket] = useState(null)
     const [events, setEvents] = useState([])
-    const [ourStreamRef, theirStreamRef] = useCall(uuid, socket)
-
-    const [mediaDevicesSupported, setMediaDevicesSupported] = useState(false)
+    const [selectedTopics, setSelectedTopics] = useState([])
+    const [callConnected, ourStreamRef, theirStreamRef] = useCall(uuid, socket)
 
     function findOpponent() {
         socket.emit('find match', { uuid: uuid })
@@ -22,11 +21,11 @@ export default function SocketTest() {
         fetch('/api/socketio').finally(() => {
             const socket = io()
             setSocket(socket)
-    })}, []) // Added [] as useEffect filter so it will be executed only once, when component is mounted
+        })
+    }, [])
 
     useEffect(() => {
-        if (socket != null)
-        {
+        if (socket != null) {
             socket.on('connect', () => {
                 setEvents(events => [...events, 'connected'])
                 socket.emit('hello')
@@ -35,7 +34,7 @@ export default function SocketTest() {
             socket.on('matched', () => {
                 setEvents(ev => [...ev, 'matched!'])
             })
-    
+
             socket.on('disconnect', () => {
                 setEvents(events => [...events, 'Disconnected'])
             })
@@ -44,25 +43,40 @@ export default function SocketTest() {
 
     return (
         <>
-            <div className='h-full w-full flex flex-col'>
-                <div className='mt-20 text-center flex flex-col self-center'>
+            <div className='h-screen w-full text-simvoni flex text-center flex-col text-white bg-spacecadet '>
+            <h1 className='text-8xl mt-20'><span className='text-frenchskyblue'>debate</span> app</h1>
+            <div className='flex flex-col lg:flex-row mx-20 my-10 gap-20 justify-center align-center self-center'>
+                
+                <video muted 
+                       autoPlay="true" 
+                       ref={ourStreamRef} 
+                       className={`block self-center ${callConnected
+                       ? `w-[32rem] h-[24rem] 
+                       2xl:w-[44rem] 2xl:h-[33rem]
+                       3xl:w-[56rem] 3xl:h-[42rem]`
+                       : 'w-[60rem] h-[45rem]'}`}>
+                </video>
+
+                <video autoPlay="true" 
+                       ref={theirStreamRef} 
+                       className={`block self-center ${callConnected ? '' : 'hidden'} 
+                        w-[32rem] h-[24rem] 
+                       2xl:w-[44rem] 2xl:h-[33rem]
+                       3xl:w-[56rem] 3xl:h-[42rem]`}>
+                </video>
+            </div>
+            <p className='text-3xl font-semibold '><span className='underline'>current topic:</span> <span className=' text-yellow-500'>Veganism</span> </p>
+            <div className='mt-10 text-center flex flex-col self-center'>
                     <p>Socket.io ({uuid})</p>
-                    <p>Media Devices Supported: {mediaDevicesSupported}</p>
-                    <div onClick={findOpponent} className='p-2 bg-gray-500 block rounded-lg hover:cursor-pointer'>
+                    <div></div>
+                    
+                    <div onClick={findOpponent} className='p-2 bg-frenchskyblue block rounded-lg hover:cursor-pointer'>
                         Find Opponent
                     </div>
                     <div>
                         {events.map(elem => <p>{elem}</p>)}
                     </div>
                 </div>
-            </div>
-
-            <div className='flex flex-row p-20 gap-20 justify-center'>
-                <video muted autoPlay="true" ref={ourStreamRef} className='block min-w-[20rem] max-w-[20rem] min-h-[15rem] max-h-[15rem] bg-black'>
-                </video>
-
-                <video autoPlay="true" ref={theirStreamRef} className='block min-w-[20rem] max-w-[20rem] min-h-[15rem] max-h-[15rem] bg-black'>
-                </video>
             </div>
         </>
     )
