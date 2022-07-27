@@ -27,7 +27,7 @@ export default function SocketTest() {
     
 
     function findOpponent() {
-        socket.emit('find match', { uuid: uuid })
+        socket.emit('find match', { uuid: uuid, attackTopics: attackTopics, defendTopics: defendTopics })
         setEvents(events => [...events, 'finding match...'])
     }
 
