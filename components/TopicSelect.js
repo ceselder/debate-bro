@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import TopicElem from './DraggableTopicElem'
 import { v4 as uuidv4 } from 'uuid'
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
@@ -7,20 +7,17 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { resetServerContext } from "react-beautiful-dnd"
 import DraggableTopicElem from './DraggableTopicElem'
 import DroppableTopicList from './DroppableTopicList'
+import { topicContext } from '../pages'
 
 resetServerContext()
 
 
 
-const allTopics = ['Veganism', 'Abortion', 'Communism', 
-                   'Capitalism', 'Religion', 'Republicans',
-                   'Social Democracy', 'Socialism', 'Racism'
-                  , 'Immigration', 'CRT', 'BLM']
-
 export default function TopicSelect({ }) {
-  const [availableTopics, setAvailableTopics] = useState(allTopics)
-  const [defendTopics, setDefendTopics] = useState([])
-  const [attackTopics, setAttackTopics] = useState([])
+  const [[availableTopics, setAvailableTopics], 
+  [defendTopics, setDefendTopics], 
+  [attackTopics, setAttackTopics], 
+  [isDragging, setIsDragging]] = useContext(topicContext)
 
   const droppableIdToArrayDict =
   {
@@ -30,6 +27,8 @@ export default function TopicSelect({ }) {
   }
 
   function handleDragEnd({ source, destination }) {
+    setIsDragging(false)
+
     if (!destination) {
       return;
     }
@@ -54,17 +53,17 @@ export default function TopicSelect({ }) {
 
   return (
     <>
-      <DragDropContext onDragEnd={handleDragEnd}>
+      <DragDropContext onDragStart={() => setIsDragging(true)} onDragEnd={handleDragEnd}>
         <div className='flex flex-row justify-between gap-10 my-4 text-center'>
           <div className='flex flex-col'>
-            <DroppableTopicList title={'I agree with'} droppableId={'defendTopics'} topicsList={defendTopics} />
+            <DroppableTopicList isDragging={isDragging} title={'I want to debate in favor of'} droppableId={'defendTopics'} topicsList={defendTopics} />
           </div>
           <div className='flex flex-col '>
-            <DroppableTopicList title={'Available Topics'} droppableId={'availableTopics'} topicsList={availableTopics} />
+            <DroppableTopicList isDragging={isDragging} title={'Available Topics'} droppableId={'availableTopics'} topicsList={availableTopics} />
           </div>
 
           <div className='flex flex-col'>
-            <DroppableTopicList title={'I disagree with'} droppableId={'attackTopics'} topicsList={attackTopics} />
+            <DroppableTopicList isDragging={isDragging} title={'I want to debate against'} droppableId={'attackTopics'} topicsList={attackTopics} />
           </div>
         </div>
       </DragDropContext>

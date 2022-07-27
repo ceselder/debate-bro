@@ -7,11 +7,24 @@ import TopicSelect from '../components/TopicSelect';
 export const SocketContext = createContext();
 const uuid = uuidv4()
 
+const allTopics = ['Veganism', 'Abortion', 'Communism', 
+'Capitalism', 'Religion', 'Republicans',
+'Social Democracy', 'Socialism', 'Racism'
+, 'Immigration', 'CRT', 'BLM']
+
+export const topicContext = createContext() 
+
 export default function SocketTest() {
     const [socket, setSocket] = useState(null)
     const [events, setEvents] = useState([])
-    const [selectedTopics, setSelectedTopics] = useState([])
     const [callConnected, ourStreamRef, theirStreamRef] = useCall(uuid, socket)
+
+    const [availableTopics, setAvailableTopics] = useState(allTopics)
+    const [defendTopics, setDefendTopics] = useState([])
+    const [attackTopics, setAttackTopics] = useState([])
+    const [isDragging, setIsDragging] = useState()
+
+    
 
     function findOpponent() {
         socket.emit('find match', { uuid: uuid })
@@ -44,18 +57,19 @@ export default function SocketTest() {
 
     return (
         <>
-            <div className='h-screen w-full text-simvoni flex text-center flex-col text-white bg-spacecadet '>
+        <topicContext.Provider value={[[availableTopics, setAvailableTopics], [defendTopics, setDefendTopics], [attackTopics, setAttackTopics], [isDragging, setIsDragging]]}>
+        <div className='h-screen w-full text-simvoni flex text-center flex-col text-white bg-spacecadet '>
             <h1 className='text-8xl mt-10'><span className='text-frenchskyblue'>debate</span> app</h1>
             <div className='flex flex-col lg:flex-row mx-20 my-10 justify-evenly align-center self-center'>
                     <video muted 
                         autoPlay="true" 
                         ref={ourStreamRef} 
-                        className={`border-[0.5rem] rounded-2xl object-cover border-frenchskyblue 
-                        block self-center ${callConnected
+                        className={`aspect-[4/3] border-[0.5rem] rounded-2xl object-cover border-frenchskyblue 
+                        flex self-center ${callConnected
                         ? `w-[32rem] h-[24rem] 
                         2xl:w-[44rem] 2xl:h-[33rem]
                         3xl:w-[56rem] 3xl:h-[42rem]`
-                        : 'w-[44rem] h-[33rem]'}`}>
+                        : 'w-[44rem] '}`}>
                     </video>
 
                 <video autoPlay="true" 
@@ -67,18 +81,20 @@ export default function SocketTest() {
                 </video>
             </div>
             <p className='text-3xl font-semibold '><span className='underline'>current topic:</span> <span className=' text-yellow-500'>Veganism</span> </p>
-            <div className='text-center self-center'>
+            <div className='flex flex-col text-center self-center'>
                     <div className='h-64'>
                         <TopicSelect />
                     </div>
-                    <div onClick={findOpponent} className='p-2 text-3xl bg-frenchskyblue rounded-lg hover:cursor-pointer'>
-                        Find Opponent
+                    <div onClick={findOpponent} className='justify-center self-center w-fit p-4 text-3xl bg-frenchskyblue rounded-lg hover:cursor-pointer'>
+                        Find Opponent!
                     </div>
                     <div>
                         {events.map(elem => <p>{elem}</p>)}
                     </div>
                 </div>
             </div>
+        </topicContext.Provider>
+        
         </>
     )
 }
