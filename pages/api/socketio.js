@@ -2,6 +2,18 @@ import { Server } from 'socket.io'
 
 const matchMakingMap = new Map();
 
+function lookForMatch(defendTopics, attackTopics)
+{
+    for (const defendTopic of defendTopics)
+    {
+        if (attackTopics.includes(defendTopic))
+        {
+            return defendTopic
+        }
+    }
+    return null
+}
+
 const ioHandler = (req, res) => {
     if (!res.socket.server.io) {
         console.log('*First use, starting socket.io')
@@ -9,19 +21,24 @@ const ioHandler = (req, res) => {
         const io = new Server(res.socket.server)
 
         io.on('connection', socket => {
-            socket.on('find match', msg => {
-                const uuid = msg.uuid
+            socket.on('find match', ({ uuid, defendTopics, attackTopics }) => {
                 socket.join(uuid)
                 let matchFound = false
 
                 for (const [key, value] of matchMakingMap) {
                     if (key !== uuid) {
+                        const matchedTopic = lookForMatch(defendTopics, value.attackTopics)
+                                           || lookForMatch(attackTopics, value.defendTopics)
+                        
+                        if (!matchedTopic)
+                        {
+                            continue;
+                        }
+
                         matchMakingMap.delete(key)
                         console.log(`found match ${key}`)
 
-                        //offers mesturen me findMatch, dan offer 
-                        //van de parent terugsturen when matched
-                        const payload = {parent: key, child: uuid}
+                        const payload = {parent: key, child: uuid, topic: matchedTopic}
 
                         socket.emit('matched', payload)
                         io.in(key).emit('matched', payload)
@@ -45,7 +62,7 @@ const ioHandler = (req, res) => {
                 })
 
                 if (!matchFound) {
-                    matchMakingMap.set(uuid, true)
+                    matchMakingMap.set(uuid, { defendTopics: defendTopics, attackTopics: attackTopics })
                 }
 
                 socket.once('disconnect', function () {

@@ -23,12 +23,25 @@ export default function SocketTest() {
     const [defendTopics, setDefendTopics] = useState([])
     const [attackTopics, setAttackTopics] = useState([])
     const [isDragging, setIsDragging] = useState()
+    const [isSearching, setIsSearching] = useState(false)
 
+    const [isMatched, setIsMatched] = useState(false)
+    const [matchedTopic, setMatchedTopic] = useState('...')
     
 
     function findOpponent() {
-        socket.emit('find match', { uuid: uuid, attackTopics: attackTopics, defendTopics: defendTopics })
-        setEvents(events => [...events, 'finding match...'])
+        setIsSearching(oldSearching => 
+            {
+                const newSearching = !oldSearching
+                if (newSearching === true)
+                {
+                    socket.emit('find match', { uuid: uuid, 
+                                                attackTopics: attackTopics, 
+                                                defendTopics: defendTopics })
+                    setEvents(events => [...events, 'finding match...'])
+                }
+                return newSearching
+            })
     }
 
     useEffect(() => {
@@ -45,8 +58,11 @@ export default function SocketTest() {
                 socket.emit('hello')
             })
 
-            socket.on('matched', () => {
-                setEvents(ev => [...ev, 'matched!'])
+            socket.on('matched', (payload) => {
+                setIsSearching(false)
+                setIsMatched(true)
+                setMatchedTopic(payload.topic)
+                setEvents(ev => [...ev, `matched on ${payload.topic}!`])
             })
 
             socket.on('disconnect', () => {
@@ -59,8 +75,8 @@ export default function SocketTest() {
         <>
         <topicContext.Provider value={[[availableTopics, setAvailableTopics], [defendTopics, setDefendTopics], [attackTopics, setAttackTopics], [isDragging, setIsDragging]]}>
         <div className='h-full min-h-[100vh] w-full text-simvoni flex text-center flex-col text-white bg-spacecadet '>
-            <h1 className='text-4xl lg:text-6xl xl:text-8xl mt-5'><span className='text-frenchskyblue'>debate</span> app</h1>
-            <div className='flex flex-col lg:flex-row mx-20 my-5 justify-evenly align-center self-center'>
+            <h1 className='text-4xl lg:text-6xl xl:text-8xl mt-5'>debate<span className='text-frenchskyblue'>-</span>bro<span className='text-frenchskyblue'>.com</span></h1>
+            <div className='flex flex-col lg:flex-row gap-4 lg:gap-6 xl:gap-8 2xl:gap-10 mx-20 my-5 justify-evenly align-center self-center'>
                     <video muted 
                         autoPlay="true" 
                         ref={ourStreamRef} 
@@ -80,13 +96,16 @@ export default function SocketTest() {
                        3xl:w-[56rem] 3xl:h-[42rem]`}>
                 </video>
             </div>
-            <p className='text-3xl font-semibold '><span className='underline'>current topic:</span> <span className=' text-yellow-500'>Veganism</span> </p>
+            <p className='text-3xl font-semibold '><span className='underline'>current topic:</span> <span className=' text-yellow-400'>Veganism</span> </p>
             <div className='flex flex-col text-center self-center'>
                     <div className='min-h-64'>
                         <TopicSelect />
                     </div>
-                    <div onClick={findOpponent} className='justify-center self-center w-fit p-4 text-3xl bg-frenchskyblue rounded-lg hover:cursor-pointer'>
-                        Find Opponent!
+                    <div onClick={findOpponent} className={`justify-center mt-5 
+                    ${isSearching ? 'bg-yellow-400' : 'bg-bluegray'}
+                     self-center  w-fit p-4 text-3xl select-none rounded-lg hover:cursor-pointer`}>
+                        <img className={`${isSearching ? '' : 'hidden'} inline-block w-8 mr-2`} src='/img/ball-triangle.svg' />
+                        {isSearching ? 'Searching for opponent...' : 'Find Opponent!'}
                     </div>
                     <div>
                         {events.map(elem => <p>{elem}</p>)}

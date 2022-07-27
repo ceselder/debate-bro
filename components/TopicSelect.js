@@ -9,11 +9,10 @@ import DraggableTopicElem from './DraggableTopicElem'
 import DroppableTopicList from './DroppableTopicList'
 import { topicContext } from '../pages'
 
-resetServerContext()
-
 
 
 export default function TopicSelect({ }) {
+  resetServerContext()
   const [[availableTopics, setAvailableTopics], 
   [defendTopics, setDefendTopics], 
   [attackTopics, setAttackTopics], 
