@@ -6,13 +6,15 @@ export default function DroppableTopicList({ title, droppableId, topicsList }) {
     return (
         <>
             <p className='underline text-2xl'>{title}</p>
-            <Droppable direction='horizontal' droppableId={droppableId}>
+            <Droppable ignoreContainerClipping={true} direction='grid' droppableId={droppableId}>
                 {(provided) => (
-                    <div {...provided.droppableProps} ref={provided.innerRef}
-                        className='flex flex-row shrink-0 w-64 pb-16 h-min flex-wrap 
-                                   justify-center'>
-                        {topicsList.map((topic, index) =>
-                            <DraggableTopicElem topic={topic} index={index} />)}
+                    <div {...provided.droppableProps} ref={provided.innerRef} 
+                         className='min-h-[12rem] overflow-x-clip overflow-y-scroll max-h-[12rem]'>
+                        <div
+                            className='flex flex-wrap w-80 align-center justify-center'>
+                            {topicsList.map((topic, index) =>
+                                <DraggableTopicElem topic={topic} index={index} />)}
+                        </div>
                     </div>
                 )}
             </Droppable>

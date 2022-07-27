@@ -8,16 +8,14 @@ import { resetServerContext } from "react-beautiful-dnd"
 import DraggableTopicElem from './DraggableTopicElem'
 import DroppableTopicList from './DroppableTopicList'
 
-
-
-
 resetServerContext()
 
 
 
 const allTopics = ['Veganism', 'Abortion', 'Communism', 
                    'Capitalism', 'Religion', 'Republicans',
-                   'Social Democracy', 'Socialism']
+                   'Social Democracy', 'Socialism', 'Racism'
+                  , 'Immigration', 'CRT', 'BLM']
 
 export default function TopicSelect({ }) {
   const [availableTopics, setAvailableTopics] = useState(allTopics)
@@ -63,7 +61,7 @@ export default function TopicSelect({ }) {
             <DroppableTopicList title={'Defend Topics'} droppableId={'defendTopics'} topicsList={defendTopics} />
           </div>
           <div className='flex flex-col '>
-            <DroppableTopicList title={'Topics'} droppableId={'availableTopics'} topicsList={availableTopics} />
+            <DroppableTopicList title={'Available Topics'} droppableId={'availableTopics'} topicsList={availableTopics} />
           </div>
 
           <div className='flex flex-col'>
