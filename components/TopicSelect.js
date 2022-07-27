@@ -54,18 +54,17 @@ export default function TopicSelect({ }) {
 
   return (
     <>
-      <DragDropContext
-        onDragEnd={handleDragEnd}>
+      <DragDropContext onDragEnd={handleDragEnd}>
         <div className='flex flex-row justify-between gap-10 my-4 text-center'>
           <div className='flex flex-col'>
-            <DroppableTopicList title={'Defend Topics'} droppableId={'defendTopics'} topicsList={defendTopics} />
+            <DroppableTopicList title={'I agree with'} droppableId={'defendTopics'} topicsList={defendTopics} />
           </div>
           <div className='flex flex-col '>
             <DroppableTopicList title={'Available Topics'} droppableId={'availableTopics'} topicsList={availableTopics} />
           </div>
 
           <div className='flex flex-col'>
-              <DroppableTopicList title={'Attack Topics'} droppableId={'attackTopics'} topicsList={attackTopics} />
+            <DroppableTopicList title={'I disagree with'} droppableId={'attackTopics'} topicsList={attackTopics} />
           </div>
         </div>
       </DragDropContext>

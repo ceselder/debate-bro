@@ -23,7 +23,7 @@ export default function DraggableTopicElem({ topic, index }) {
              {...provided.dragHandleProps} 
              ref={provided.innerRef}
              style={getStyle(provided.draggableProps.style, snapshot)}
-          className=' hover:cursor-pointer h-min p-2 bg-frenchskyblue m-1 
+          className='select-none hover:cursor-pointer h-min p-2 bg-frenchskyblue m-1 
                 rounded-lg'
         >
           {topic}
