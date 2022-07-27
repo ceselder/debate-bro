@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import TopicElem from './TopicElem'
 import { v4 as uuidv4 } from 'uuid'
 
-const allTopics = ['Veganism', 'Abortion', 'Communism', 'weed', 'penis']
+const allTopics = ['Veganism', 'Abortion', 'Communism', '1', '2']
 
 export default function TopicSelect({  }) {
   const [availableTopics, setAvailableTopics] = useState(allTopics)
