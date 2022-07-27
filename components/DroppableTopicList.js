@@ -9,8 +9,8 @@ export default function DroppableTopicList({ isDragging, title, droppableId, top
             <Droppable ignoreContainerClipping={true} direction='grid' droppableId={droppableId}>
                 {(provided) => (
                     <div {...provided.droppableProps} ref={provided.innerRef} 
-                         className={`${isDragging ? 'border-frenchskyblue' : 'border-transparent'} rounded-xl 
-                         border-2 border-dotted min-h-[12rem] max-h-[12rem] p-2 select-none 
+                         className={`transition duration-300 ease-in-out  ${isDragging ? ' border-frenchskyblue' : 'transition duration-300 border-transparent'} 
+                         rounded-xl border-2 border-dotted min-h-[12rem] max-h-[12rem] p-2 select-none 
                          overflow-x-clip overflow-y-auto `}>
                         <div
                             className='flex flex-wrap w-24 md:w-52 lg:w-72 xl:w-80 align-center justify-center'>
