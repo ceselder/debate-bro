@@ -55,7 +55,7 @@ export default function SocketTest() {
                         ? `w-[32rem] h-[24rem] 
                         2xl:w-[44rem] 2xl:h-[33rem]
                         3xl:w-[56rem] 3xl:h-[42rem]`
-                        : 'w-[60rem] h-[45rem]'}`}>
+                        : 'w-[44rem] h-[33rem]'}`}>
                     </video>
 
                 <video autoPlay="true" 
@@ -67,10 +67,11 @@ export default function SocketTest() {
                 </video>
             </div>
             <p className='text-3xl font-semibold '><span className='underline'>current topic:</span> <span className=' text-yellow-500'>Veganism</span> </p>
-            <div className='text-center flex-grow-0 flex-shrink-0 w-96 flex flex-col self-center'>
-                    
-                    <TopicSelect />
-                    <div onClick={findOpponent} className='p-2 text-3xl bg-frenchskyblue block rounded-lg hover:cursor-pointer'>
+            <div className='text-center self-center'>
+                    <div className='h-64'>
+                        <TopicSelect />
+                    </div>
+                    <div onClick={findOpponent} className='p-2 text-3xl bg-frenchskyblue rounded-lg hover:cursor-pointer'>
                         Find Opponent
                     </div>
                     <div>

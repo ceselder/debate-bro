@@ -1,41 +1,79 @@
-import React, {useState} from 'react'
-import TopicElem from './TopicElem'
+import React, { useState } from 'react'
+import TopicElem from './DraggableTopicElem'
 import { v4 as uuidv4 } from 'uuid'
+import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
+import { faXmark } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { resetServerContext } from "react-beautiful-dnd"
+import DraggableTopicElem from './DraggableTopicElem'
+import DroppableTopicList from './DroppableTopicList'
 
-const allTopics = ['Veganism', 'Abortion', 'Communism', '1', '2']
 
-export default function TopicSelect({  }) {
+
+
+resetServerContext()
+
+
+
+const allTopics = ['Veganism', 'Abortion', 'Communism', 
+                   'Capitalism', 'Religion', 'Republicans',
+                   'Social Democracy', 'Socialism']
+
+export default function TopicSelect({ }) {
   const [availableTopics, setAvailableTopics] = useState(allTopics)
-  const [selectedTopics, setSelectedTopics] = useState([])
-  
-  function addTopic(topic)
+  const [defendTopics, setDefendTopics] = useState([])
+  const [attackTopics, setAttackTopics] = useState([])
+
+  const droppableIdToArrayDict =
   {
-    setAvailableTopics(old => old.filter(elem => elem !== topic))
-    setSelectedTopics(old => [...old, topic])
+    'attackTopics': [attackTopics, setAttackTopics],
+    'defendTopics': [defendTopics, setDefendTopics],
+    'availableTopics': [availableTopics, setAvailableTopics]
   }
 
-  function removeTopic(topic)
-  {
-    setSelectedTopics(old => old.filter(elem => elem !== topic))
-    setAvailableTopics(old => [...old, topic])
+  function handleDragEnd({ source, destination }) {
+    if (!destination) {
+      return;
+    }
+    console.log(source, destination)
+
+    const [sourceArray, setSourceArray] = droppableIdToArrayDict[source.droppableId]
+    const [destArray, setDestArray] = droppableIdToArrayDict[destination.droppableId]
+    const elem = sourceArray[source.index]
+
+    setSourceArray(oldArray => {
+      const array = [...oldArray]
+      array.splice(source.index, 1)
+      return array
+    })
+    setDestArray(oldArray => {
+      const array = [...oldArray]
+      array.splice(destination.index, 0, elem)
+      return array
+    }
+    )
   }
 
   return (
     <>
-    <div className='flex flex-col my-4 text-center'>
-      <p className='underline text-2xl'>Topics</p>
-      <div className='flex flex-wrap flex-row justify-center'>
-        {availableTopics.map(topic => <TopicElem onClick={addTopic} key={topic} topic={topic} />)}
-      </div>
-    <div className='flex flex-col my-4 text-center'>
-    <p className='underline text-2xl'>Selected Topics</p>
-    <div className='flex flex-wrap flex-row justify-center'>
-      {selectedTopics.map(topic => <TopicElem onClick={removeTopic} key={topic} topic={topic} />)}
-    </div>
-    </div>
-    </div>
+      <DragDropContext
+        onDragEnd={handleDragEnd}>
+        <div className='flex flex-row justify-between gap-10 my-4 text-center'>
+          <div className='flex flex-col'>
+            <DroppableTopicList title={'Defend Topics'} droppableId={'defendTopics'} topicsList={defendTopics} />
+          </div>
+          <div className='flex flex-col '>
+            <DroppableTopicList title={'Topics'} droppableId={'availableTopics'} topicsList={availableTopics} />
+          </div>
+
+          <div className='flex flex-col'>
+              <DroppableTopicList title={'Attack Topics'} droppableId={'attackTopics'} topicsList={attackTopics} />
+          </div>
+        </div>
+      </DragDropContext>
+
     </>
 
-    
+
   )
 }
