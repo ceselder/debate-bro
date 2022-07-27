@@ -54,15 +54,15 @@ export default function TopicSelect({ }) {
   return (
     <>
       <DragDropContext onDragStart={() => setIsDragging(true)} onDragEnd={handleDragEnd}>
-        <div className='flex flex-row justify-between gap-10 my-4 text-center'>
-          <div className='flex flex-col mt-2'>
+        <div className='flex flex-row justify-between gap-4 md:gap-6 lg:gap-8 xl:gap-10 max-h-[18rem] my-4 text-center'>
+          <div className='flex flex-col mt-2 justify-end '>
             <DroppableTopicList isDragging={isDragging} title={'I want to debate in favor of'} droppableId={'defendTopics'} topicsList={defendTopics} />
           </div>
-          <div className='flex flex-col mt-2'>
+          <div className='flex flex-col mt-2 align-bottom'>
             <DroppableTopicList isDragging={isDragging} title={'Available Topics'} droppableId={'availableTopics'} topicsList={availableTopics} />
           </div>
 
-          <div className='flex flex-col mt-2'>
+          <div className='flex flex-col mt-2 align-bottom'>
             <DroppableTopicList isDragging={isDragging} title={'I want to debate against'} droppableId={'attackTopics'} topicsList={attackTopics} />
           </div>
         </div>

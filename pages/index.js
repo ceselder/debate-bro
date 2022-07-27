@@ -58,7 +58,7 @@ export default function SocketTest() {
     return (
         <>
         <topicContext.Provider value={[[availableTopics, setAvailableTopics], [defendTopics, setDefendTopics], [attackTopics, setAttackTopics], [isDragging, setIsDragging]]}>
-        <div className='h-screen w-full text-simvoni flex text-center flex-col text-white bg-spacecadet '>
+        <div className='h-full w-full text-simvoni flex text-center flex-col text-white bg-spacecadet '>
             <h1 className='text-4xl lg:text-6xl xl:text-8xl mt-5'><span className='text-frenchskyblue'>debate</span> app</h1>
             <div className='flex flex-col lg:flex-row mx-20 my-5 justify-evenly align-center self-center'>
                     <video muted 
@@ -82,7 +82,7 @@ export default function SocketTest() {
             </div>
             <p className='text-3xl font-semibold '><span className='underline'>current topic:</span> <span className=' text-yellow-500'>Veganism</span> </p>
             <div className='flex flex-col text-center self-center'>
-                    <div className='h-64'>
+                    <div className='min-h-64'>
                         <TopicSelect />
                     </div>
                     <div onClick={findOpponent} className='justify-center self-center w-fit p-4 text-3xl bg-frenchskyblue rounded-lg hover:cursor-pointer'>
