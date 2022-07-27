@@ -6,6 +6,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@dnd-kit/core": "^6.0.5",
     "@fortawesome/fontawesome-svg-core": "^6.1.2",
     "@fortawesome/free-solid-svg-icons": "^6.1.2",
     "@fortawesome/react-fontawesome": "^0.2.0",
@@ -13,7 +14,6 @@
     "peer": "^0.6.1",
     "peerjs": "^1.4.6",
     "react": "17.0.2",
-    "react-beautiful-dnd": "^13.1.0",
     "react-dom": "17.0.2",
     "simple-peer": "^9.11.1",
     "socket.io": "^4.5.1",

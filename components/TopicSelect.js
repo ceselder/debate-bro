@@ -1,15 +1,6 @@
 import React, { useState } from 'react'
-import TopicElem from './DraggableTopicElem'
-import { v4 as uuidv4 } from 'uuid'
-import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
-import { faXmark } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { resetServerContext } from "react-beautiful-dnd"
-import DraggableTopicElem from './DraggableTopicElem'
 import DroppableTopicList from './DroppableTopicList'
-
-resetServerContext()
-
+import { DndContext }  from '@dnd-kit/core'
 
 
 const allTopics = ['Veganism', 'Abortion', 'Communism', 
@@ -54,8 +45,7 @@ export default function TopicSelect({ }) {
 
   return (
     <>
-      <DragDropContext
-        onDragEnd={handleDragEnd}>
+      <DndContext onDragEnd={handleDragEnd}>
         <div className='flex flex-row justify-between gap-10 my-4 text-center'>
           <div className='flex flex-col'>
             <DroppableTopicList title={'Defend Topics'} droppableId={'defendTopics'} topicsList={defendTopics} />
@@ -68,8 +58,7 @@ export default function TopicSelect({ }) {
               <DroppableTopicList title={'Attack Topics'} droppableId={'attackTopics'} topicsList={attackTopics} />
           </div>
         </div>
-      </DragDropContext>
-
+      </DndContext>
     </>
 
 
