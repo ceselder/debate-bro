@@ -96,11 +96,14 @@ export default function SocketTest() {
                        3xl:w-[56rem] 3xl:h-[42rem]`}>
                 </video>
             </div>
-            <p className='text-3xl font-semibold '><span className='underline'>current topic:</span> <span className=' text-yellow-400'>Veganism</span> </p>
+            {(isMatched) && 
+            <p className='text-3xl font-semibold '><span className='underline'>current topic:</span> <span className=' text-yellow-400'>{matchedTopic}</span> </p>}
+            
             <div className='flex flex-col text-center self-center'>
                     <div className='min-h-64'>
                         <TopicSelect />
                     </div>
+                    
                     <div onClick={findOpponent} className={`justify-center mt-5 
                     ${isSearching ? 'bg-yellow-400' : 'bg-bluegray'}
                      self-center  w-fit p-4 text-3xl select-none rounded-lg hover:cursor-pointer`}>
