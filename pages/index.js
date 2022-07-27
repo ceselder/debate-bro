@@ -59,8 +59,8 @@ export default function SocketTest() {
         <>
         <topicContext.Provider value={[[availableTopics, setAvailableTopics], [defendTopics, setDefendTopics], [attackTopics, setAttackTopics], [isDragging, setIsDragging]]}>
         <div className='h-screen w-full text-simvoni flex text-center flex-col text-white bg-spacecadet '>
-            <h1 className='text-8xl mt-10'><span className='text-frenchskyblue'>debate</span> app</h1>
-            <div className='flex flex-col lg:flex-row mx-20 my-10 justify-evenly align-center self-center'>
+            <h1 className='text-4xl lg:text-6xl xl:text-8xl mt-5'><span className='text-frenchskyblue'>debate</span> app</h1>
+            <div className='flex flex-col lg:flex-row mx-20 my-5 justify-evenly align-center self-center'>
                     <video muted 
                         autoPlay="true" 
                         ref={ourStreamRef} 

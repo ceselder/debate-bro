@@ -10,8 +10,8 @@ export default function DroppableTopicList({ isDragging, title, droppableId, top
                 {(provided) => (
                     <div {...provided.droppableProps} ref={provided.innerRef} 
                          className={`${isDragging ? 'border-frenchskyblue' : 'border-transparent'} rounded-xl 
-                         border-2 border-dotted min-h-[12rem] p-2 select-none 
-                         overflow-x-clip overflow-y-auto max-h-[12rem]`}>
+                         border-2 border-dotted min-h-[30vh] max-h-[30vh] p-2 select-none 
+                         overflow-x-clip overflow-y-auto `}>
                         <div
                             className='flex flex-wrap w-24 md:w-52 lg:w-72 xl:w-80 align-center justify-center'>
                             {topicsList.map((topic, index) =>
