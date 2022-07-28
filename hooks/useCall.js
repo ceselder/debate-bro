@@ -60,18 +60,14 @@ export default function useCall(uuid, socket)
         const peer = new RTCPeerConnection({
             iceServers: [
                 {
-                  urls: ['stun.l.google.com:19302',
-                  'stun1.l.google.com:19302',
-                  'stun2.l.google.com:19302',
-                  'stun3.l.google.com:19302',
-                  'stun4.l.google.com:19302']
+                    urls: "stun:stun.stunprotocol.org"
                 },
                 {
-                  urls: "turn:64.225.105.182:3478",
-                  username: "turn",
-                  credential: "vqoudmicxisjik",
+                    urls: 'turn:numb.viagenie.ca',
+                    credential: 'muazkh',
+                    username: 'webrtc@live.com'
                 },
-              ],
+            ]
         });
 
         peer.onicecandidate = handleICECandidateEvent;
