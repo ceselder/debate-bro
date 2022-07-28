@@ -77,7 +77,6 @@ export default function useCall(uuid, socket)
 
 
         console.log('ICE state: ', peer.iceConnectionState)
-        peer.onicecandidate = handleICECandidateEvent;
         peer.addEventListener('icegatheringstatechange', event => {
         console.log('ICE gathering state: ', peerRef.current.iceGatheringState) 
         })
