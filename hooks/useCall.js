@@ -135,7 +135,7 @@ export default function useCall(uuid, socket)
 
     function handleICECandidateEvent(e) {
         if (e.candidate) {
-            console.log('sending ice candidate...')
+            console.log('sending ice candidate...', e.candidate)
             const payload = {
                 target: otherUser.current,
                 candidate: e.candidate,
