@@ -82,7 +82,7 @@ export default function useCall(uuid, socket)
         console.log('ICE gathering state: ', peerRef.current.iceGatheringState) 
         })
         peer.addEventListener('iceconnectionstatechange', event => { 
-            console.log('ICE state: ', peerRef.current.iceConnectionState) 
+            console.log('ICE state:', peerRef.current.iceConnectionState) 
         })
         peer.ontrack = handleTrackEvent;
         peer.onnegotiationneeded = () => handleNegotiationNeededEvent(userID);
