@@ -60,7 +60,7 @@ export default function useCall(uuid, socket)
         const peer = new RTCPeerConnection({
             iceServers: [
                 {
-                  urls: "stun:openrelay.metered.ca:80",
+                  urls: "stun:64.225.105.182:3478",
                 },
                 {
                   urls: "turn:64.225.105.182:3478",
