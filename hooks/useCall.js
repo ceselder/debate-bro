@@ -63,20 +63,11 @@ export default function useCall(uuid, socket)
                   urls: "stun:openrelay.metered.ca:80",
                 },
                 {
-                  urls: "turn:openrelay.metered.ca:80",
-                  username: "openrelayproject",
-                  credential: "openrelayproject",
+                  urls: "turn:64.225.105.182:3478",
+                  username: "turn",
+                  credential: "vqoudmicxisjik",
                 },
-                {
-                  urls: "turn:openrelay.metered.ca:443",
-                  username: "openrelayproject",
-                  credential: "openrelayproject",
-                },
-                {
-                  urls: "turn:openrelay.metered.ca:443?transport=tcp",
-                  username: "openrelayproject",
-                  credential: "openrelayproject",
-                },
+
               ],
         });
 
