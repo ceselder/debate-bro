@@ -73,7 +73,7 @@ export default function SocketTest() {
 
     return (
         <>
-        <topicContext.Provider value={[[availableTopics, setAvailableTopics], [defendTopics, setDefendTopics], [attackTopics, setAttackTopics], [isDragging, setIsDragging]]}>
+        
         <div className='h-full min-h-[100vh] w-full text-simvoni flex text-center flex-col text-white bg-spacecadet '>
             <h1 className='text-4xl lg:text-6xl xl:text-8xl mt-5'>debate<span className='text-frenchskyblue'>-</span>bro<span className='text-frenchskyblue'>.com</span></h1>
             <div className='flex flex-col lg:flex-row gap-4 lg:gap-6 xl:gap-8 2xl:gap-10 mx-20 my-5 justify-evenly align-center self-center'>
@@ -100,7 +100,9 @@ export default function SocketTest() {
             (<p className='text-3xl font-semibold '><span className='underline'>current topic:</span> <span className=' text-yellow-400'>{matchedTopic}</span> </p>)}
             <div className='flex flex-col text-center self-center'>
                     <div className='min-h-64'>
+                    <topicContext.Provider value={[[availableTopics, setAvailableTopics], [defendTopics, setDefendTopics], [attackTopics, setAttackTopics], [isDragging, setIsDragging]]}>
                         <TopicSelect />
+                    </topicContext.Provider>
                     </div>
                     <div onClick={findOpponent} className={`justify-center mt-5 
                     ${isSearching ? 'bg-yellow-400' : 'bg-bluegray'}
@@ -113,7 +115,6 @@ export default function SocketTest() {
                     </div>
                 </div>
             </div>
-        </topicContext.Provider>
         
         </>
     )
