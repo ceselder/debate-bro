@@ -3,7 +3,7 @@ import io from 'socket.io-client'
 
 
 
-export default function useCall(uuid, socket, turnpass)
+export default function useCall(uuid, socket,)
 {
     const [callConnected, setCallConnected] = useState(false)
     const ourUuid = uuid
@@ -75,7 +75,7 @@ export default function useCall(uuid, socket, turnpass)
                 ]
              }]
         })
-        
+
 
         peer.onicecandidate = handleICECandidateEvent;
         peer.ontrack = handleTrackEvent;
