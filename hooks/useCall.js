@@ -63,9 +63,9 @@ export default function useCall(uuid, socket)
                   urls: "stun:stun1.l.google.com:19302",
                 },
                 {
-                  urls: "turn:64.225.105.182:3478",
+                  urls: "turn:tft-coaching.com:3478",
                   username: "turn",
-                  credential: "vqoudmicxisjik",
+                  credential: 'nkdhynpqmsxsqk', //todo change when we move to production
                 },
 
               ],
@@ -144,7 +144,6 @@ export default function useCall(uuid, socket)
     }
 
     function handleNewICECandidateMsg(incoming) {
-        console.log('recieving ice candidate')
         const candidate = new RTCIceCandidate(incoming);
 
         peerRef.current.addIceCandidate(candidate)
