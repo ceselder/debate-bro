@@ -67,11 +67,6 @@ export default function useCall(uuid, socket)
                   username: "turn",
                   credential: 'nkdhynpqmsxsqk', //todo change when we move to production
                 },
-                {
-                    urls: "turn:tft-coaching.com:3478",
-                    username: "turn",
-                    credential: 'nkdhynpqmsxsqk', //todo change when we move to production
-                  },
 
               ],
         });
