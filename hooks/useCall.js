@@ -63,10 +63,15 @@ export default function useCall(uuid, socket)
                   urls: "stun:stun1.l.google.com:19302",
                 },
                 {
-                  urls: "turn:tft-coaching.com:3478",
+                  urls: "turn:tft-coaching.com:443",
                   username: "turn",
                   credential: 'nkdhynpqmsxsqk', //todo change when we move to production
                 },
+                {
+                    urls: "turn:tft-coaching.com:3478",
+                    username: "turn",
+                    credential: 'nkdhynpqmsxsqk', //todo change when we move to production
+                  },
 
               ],
         });
