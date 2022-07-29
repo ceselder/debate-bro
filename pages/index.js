@@ -12,17 +12,12 @@ const allTopics = ['Veganism', 'Abortion', 'Communism',
 'Social Democracy', 'Socialism', 'Racism'
 , 'Immigration', 'CRT', 'BLM']
 
-export async function getStaticProps() {
-
-    return { props: { turnpass: process.env.TURN_PASS } }
-}
-
 export const topicContext = createContext() 
 
-export default function App({ turnpass }) {
+export default function App() {
     const [socket, setSocket] = useState(null)
     const [events, setEvents] = useState([])
-    const [callConnected, ourStreamRef, theirStreamRef] = useCall(uuid, socket, turnpass)
+    const [callConnected, ourStreamRef, theirStreamRef] = useCall(uuid, socket)
 
     const [availableTopics, setAvailableTopics] = useState(allTopics)
     const [defendTopics, setDefendTopics] = useState([])
