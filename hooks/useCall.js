@@ -75,6 +75,7 @@ export default function useCall(uuid, socket, turnpass)
                 ]
              }]
         })
+        
 
         peer.onicecandidate = handleICECandidateEvent;
         peer.ontrack = handleTrackEvent;
