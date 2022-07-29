@@ -55,6 +55,7 @@ export default function useCall(uuid, socket,)
 
     function callUser(userID) {
         peerRef.current = createPeer(userID)
+        ourStream.current.getTracks().forEach(track => peerRef.current.addTrack(track, ourStream.current))
     }
 
     function createPeer(userID) {
@@ -75,6 +76,7 @@ export default function useCall(uuid, socket,)
              }]
         })
 
+
         peer.onicecandidate = handleICECandidateEvent;
         peer.ontrack = handleTrackEvent;
         peer.onnegotiationneeded = () => handleNegotiationNeededEvent(userID);
@@ -89,8 +91,6 @@ export default function useCall(uuid, socket,)
         })
         peer.ontrack = handleTrackEvent;
         peer.onnegotiationneeded = () => handleNegotiationNeededEvent(userID);
-
-        ourStream.current.getTracks().forEach(track => peer.addTrack(track, ourStream.current))
 
         return peer;
     }
@@ -157,7 +157,8 @@ export default function useCall(uuid, socket,)
     }
 
     function handleTrackEvent(event) {
-        theirStreamRef.current.srcObject = event.streams[0];
+        const [remoteStream] = event.streams;
+        theirStreamRef.current.srcObject = remoteStream;
         setCallConnected(true)
     };
 
