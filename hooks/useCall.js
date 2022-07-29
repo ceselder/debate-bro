@@ -1,7 +1,9 @@
 import { useRef, useState, useEffect } from "react"
 import io from 'socket.io-client'
 
-export default function useCall(uuid, socket)
+
+
+export default function useCall(uuid, socket, turnpass)
 {
     const [callConnected, setCallConnected] = useState(false)
     const ourUuid = uuid
@@ -58,23 +60,21 @@ export default function useCall(uuid, socket)
 
     function createPeer(userID) {
         const peer = new RTCPeerConnection({
-            iceServers: [
-                {
-                  urls: "stun:stun.tft-coaching.com:5349",
-                },
-                {
-                    urls: "turn:turn.tft-coaching.com:5349",
-                    username: "turn",
-                    credential: 'nkdhynpqmsxsqk', //todo change when we move to production
-                  },
-                {
-                  urls: "turn:turn.tft-coaching.com:443",
-                  username: "turn",
-                  credential: 'nkdhynpqmsxsqk', //todo change when we move to production
-                },
-
-              ],
-        });
+            iceServers: [{
+                urls: [ "stun:fr-turn1.xirsys.com" ]
+             }, {
+                username: "x36BhiWgWHjYGjwnHIrQMxxnHYQ7OMrw6K0aGYGMSVuGgBNNTlNXkqWJqOk_6AqDAAAAAGLj7XVjb29sZXN0cm9nZW4=",
+                credential: "107cde88-0f4a-11ed-b61b-0242ac120004",
+                urls: [
+                    "turn:fr-turn1.xirsys.com:80?transport=udp",
+                    "turn:fr-turn1.xirsys.com:3478?transport=udp",
+                    "turn:fr-turn1.xirsys.com:80?transport=tcp",
+                    "turn:fr-turn1.xirsys.com:3478?transport=tcp",
+                    "turns:fr-turn1.xirsys.com:443?transport=tcp",
+                    "turns:fr-turn1.xirsys.com:5349?transport=tcp"
+                ]
+             }]
+        })
 
         peer.onicecandidate = handleICECandidateEvent;
         peer.ontrack = handleTrackEvent;
