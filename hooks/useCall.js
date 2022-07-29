@@ -60,7 +60,7 @@ export default function useCall(uuid, socket)
         const peer = new RTCPeerConnection({
             iceServers: [
                 {
-                  urls: "stun:stun1.l.google.com:19302",
+                  urls: "stun:tft-coaching.com:443",
                 },
                 {
                   urls: "turn:tft-coaching.com:443",
