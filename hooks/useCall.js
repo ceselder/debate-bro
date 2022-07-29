@@ -55,7 +55,6 @@ export default function useCall(uuid, socket,)
 
     function callUser(userID) {
         peerRef.current = createPeer(userID)
-        ourStream.current.getTracks().forEach(track => peerRef.current.addTrack(track, ourStream.current))
     }
 
     function createPeer(userID) {
@@ -75,6 +74,8 @@ export default function useCall(uuid, socket,)
                 ]
              }]
         })
+
+        ourStream.current.getTracks().forEach(track => peer.addTrack(track, ourStream.current))
 
 
         peer.onicecandidate = handleICECandidateEvent;
