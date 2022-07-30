@@ -1,7 +1,8 @@
 import { faXmark } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import React from 'react'
+import React, { useContext } from 'react'
 import { Draggable } from 'react-beautiful-dnd'
+import { topicContext } from '../pages';
 
 function getStyle(style, snapshot) {
   if (!snapshot.isDropAnimating) {
@@ -15,9 +16,13 @@ function getStyle(style, snapshot) {
 }
 
 
+
+
 export default function DraggableTopicElem({ topic, index }) {
+  const [connectionState, isSearching] = useContext(topicContext)
+
   return (
-    (<Draggable key={topic} draggableId={topic} index={index}>
+    (<Draggable isDragDisabled={(connectionState !== 'disconnected' || isSearching)} key={topic} draggableId={topic} index={index}>
       {(provided, snapshot) => (
         <div {...provided.draggableProps}
              {...provided.dragHandleProps} 

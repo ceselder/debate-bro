@@ -1,6 +1,8 @@
 import { Server } from 'socket.io'
 
 const matchMakingMap = new Map();
+const ongoingCallsMap = new Map();
+//todo use mongo so I can host on vercl
 
 function lookForMatch(defendTopics, attackTopics)
 {
@@ -39,36 +41,38 @@ const ioHandler = (req, res) => {
                         console.log(`found match ${key}`)
 
                         const payload = {parent: key, child: uuid, topic: matchedTopic}
+                    
+                        socket.on('end call', function () {
+                            io.in(key).emit('call ended')
+                            io.in(uuid).emit('call ended')
+                        })
+
+                        socket.on('disconnecting', function () {
+                            console.log('disconnected')
+                            io.in(key).emit('call ended')
+                            io.in(uuid).emit('call ended')
+                            matchMakingMap.delete(uuid)
+                        });
+
+                        socket.on('cancel search', () => 
+                        {
+                            matchMakingMap.delete(uuid)
+                        })
 
                         socket.emit('matched', payload)
                         io.in(key).emit('matched', payload)
+                        ongoingCallsMap.set(key, uuid)
+                        ongoingCallsMap.set(uuid, key)
 
                         matchFound = true
                         break;
                     }
                 }
 
-                socket.on('offer', payload => {
-                    console.log(`sending offer to ${payload.target}`)
-                    io.to(payload.target).emit("offer", payload)
-                })
-
-                socket.on("answer", payload => {
-                    io.to(payload.target).emit("answer", payload)
-                })
-
-                socket.on('ice-candidate', incoming => {
-                    io.to(incoming.target).emit("ice-candidate", incoming.candidate)
-                })
-
                 if (!matchFound) {
                     matchMakingMap.set(uuid, { defendTopics: defendTopics, attackTopics: attackTopics })
                 }
 
-                socket.once('disconnect', function () {
-                    socket.leave(uuid)
-                    matchMakingMap.delete(uuid)
-                });
 
             })
         })

@@ -54,11 +54,11 @@ export default function useCall(uuid, socket,) {
                             setConnectionState('connecting')
                             const call = peerRef.current.call(userId, ourStream.current)
                             call.on('stream', setTheirStream)
-                            call.on('close', () => {
+                            /*call.on('close', () => {
                                 setConnectionState('disconnected')
-                            })
-
-                            //peers[userId] = call
+                                console.log('connection closed')
+                            })*/
+                            //currently not working 
                         }
 
 
@@ -79,6 +79,10 @@ export default function useCall(uuid, socket,) {
                                 otherUser.current = msg.child
                                 callUser(msg.child)
                             }
+                        })
+
+                        socket.on('call ended', () => {
+                            setConnectionState('disconnected')
                         })
 
                     });

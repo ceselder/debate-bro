@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Droppable } from 'react-beautiful-dnd'
 import DraggableTopicElem from './DraggableTopicElem'
 
+
 export default function DroppableTopicList({ isDragging, title, droppableId, topicsList }) {
     return (
         <>
