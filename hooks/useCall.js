@@ -12,7 +12,7 @@ export default function useCall(uuid, socket,) {
     const theirStreamRef = useRef()
     const peerRef = useRef()
     const otherUser = useRef()
-    const [call, setCall] = useState()
+    const callRef = useRef()
 
     useEffect(() => {
         if (socket != null) {
@@ -53,9 +53,8 @@ export default function useCall(uuid, socket,) {
 
                         function callUser(userId) {
                             setConnectionState('connecting')
-                            const call = peerRef.current.call(userId, ourStream.current)
-                            setCall(call)
-                            call.on('stream', setTheirStream)
+                            callRef.current = peerRef.current.call(userId, ourStream.current)
+                            callRef.current.on('stream', setTheirStream)
                             /*call.on('close', () => {
                                 setConnectionState('disconnected')
                                 console.log('connection closed')
@@ -65,7 +64,7 @@ export default function useCall(uuid, socket,) {
 
 
                         peerRef.current.on('call', call => {
-                            setCall(call)
+                            callRef.current = call
                             setConnectionState('connected')
                             call.answer(ourStream.current)
                             call.on('stream', setTheirStream)
@@ -86,7 +85,7 @@ export default function useCall(uuid, socket,) {
 
                         socket.on('call ended', () => {
                             setConnectionState('disconnected')
-                            call.close()
+                            callRef.current.close()
                         })
 
                     });
