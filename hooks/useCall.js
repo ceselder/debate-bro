@@ -28,7 +28,7 @@ export default function useCall(uuid, socket,) {
                         video: true,
                     }).then(stream => {
                         //setMediaDevicesSupported(true)
-                        peerRef.current = new Peer();
+                        peerRef.current = new Peer(ourUuid, {debug: 3});
 
                         function callUser(userId) {
                             setCallConnected(true)
