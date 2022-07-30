@@ -4,7 +4,7 @@ import io from 'socket.io-client'
 
 
 export default function useCall(uuid, socket,) {
-    const [callConnected, setCallConnected] = useState(false)
+    const [connectionState, setConnectionState] = useState('disconnected')
     const [mediaDevicesSupported, setMediaDevicesSupported] = useState()
     const ourUuid = uuid
     const ourStream = useRef()
@@ -44,14 +44,18 @@ export default function useCall(uuid, socket,) {
                             }, debug: 3
                         });
 
+                        function setTheirStream(stream)
+                        {
+                            theirStreamRef.current.srcObject = stream
+                            setConnectionState('connected')
+                        }
+
                         function callUser(userId) {
-                            setCallConnected(true)
+                            setConnectionState('connecting')
                             const call = peerRef.current.call(userId, ourStream.current)
-                            call.on('stream', userVideoStream => {
-                                theirStreamRef.current.srcObject = userVideoStream
-                            })
+                            call.on('stream', setTheirStream)
                             call.on('close', () => {
-                                console.log('closed')
+                                setConnectionState('disconnected')
                             })
 
                             //peers[userId] = call
@@ -59,11 +63,9 @@ export default function useCall(uuid, socket,) {
 
 
                         peerRef.current.on('call', call => {
-                            setCallConnected(true)
+                            setConnectionState('connected')
                             call.answer(ourStream.current)
-                            call.on('stream', userVideoStream => {
-                                theirStreamRef.current.srcObject = userVideoStream
-                            })
+                            call.on('stream', setTheirStream)
                         })
 
 
@@ -86,5 +88,5 @@ export default function useCall(uuid, socket,) {
     }, [socket])
 
 
-    return [callConnected, ourStreamRef, theirStreamRef]
+    return [connectionState, ourStreamRef, theirStreamRef]
 }

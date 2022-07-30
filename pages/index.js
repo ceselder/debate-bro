@@ -17,7 +17,7 @@ export const topicContext = createContext()
 export default function App() {
     const [socket, setSocket] = useState(null)
     const [events, setEvents] = useState([])
-    const [callConnected, ourStreamRef, theirStreamRef] = useCall(uuid, socket)
+    const [connectionState, ourStreamRef, theirStreamRef] = useCall(uuid, socket)
 
     const [availableTopics, setAvailableTopics] = useState(allTopics)
     const [defendTopics, setDefendTopics] = useState([])
@@ -81,19 +81,22 @@ export default function App() {
                         autoPlay="true" 
                         ref={ourStreamRef} 
                         className={`aspect-[4/3] border-[0.5rem] rounded-2xl object-cover border-frenchskyblue 
-                        flex self-center ${callConnected
-                        ? `w-[32rem] h-[24rem] 
-                        2xl:w-[44rem] 2xl:h-[33rem]
-                        3xl:w-[56rem] 3xl:h-[42rem]`
+                        flex self-center ${(connectionState !== 'disconnect')
+                        ? `w-[32rem] 2xl:w-[44rem] 3xl:w-[56rem]`
                         : 'w-[44rem] '}`}>
                     </video>
 
-                <video autoPlay="true" 
+                <div className={`aspect-[4/3] border-[0.5rem] rounded-2xl object-cover border-frenchskyblue flex shrink-0
+                        ${(connectionState === 'connecting') ? '' : 'hidden'} 
+                        w-[32rem] 2xl:w-[44rem] 3xl:w-[56rem]`}>
+                    <img src='/img/three-dots.svg' className='block w-1/6 m-auto' />
+                </div>
+
+                <video autoPlay="true"
                        ref={theirStreamRef} 
-                       className={`border-[0.5rem] rounded-2xl object-cover border-frenchskyblue block self-center ${callConnected ? '' : 'hidden'} 
-                        w-[32rem] h-[24rem] 
-                       2xl:w-[44rem] 2xl:h-[33rem]
-                       3xl:w-[56rem] 3xl:h-[42rem]`}>
+                       className={`aspect-[4/3] border-[0.5rem] rounded-2xl object-cover border-frenchskyblue flex shrink-0 self-center 
+                        ${(connectionState === 'connected') ? '' : 'hidden'} 
+                          w-[32rem] 2xl:w-[44rem] 3xl:w-[56rem]`}>
                 </video>
             </div>
             {isMatched &&
