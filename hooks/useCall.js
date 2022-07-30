@@ -30,20 +30,19 @@ export default function useCall(uuid, socket,) {
                     }).then(stream => {
                         console.log("own stun server")
                         setMediaDevicesSupported(true)
-                        peerRef.current = new Peer(ourUuid, {config: { iceServers: [{
-                            urls: [ "stun:fr-turn1.xirsys.com" ]
-                         }, {
-                            username: "x36BhiWgWHjYGjwnHIrQMxxnHYQ7OMrw6K0aGYGMSVuGgBNNTlNXkqWJqOk_6AqDAAAAAGLj7XVjb29sZXN0cm9nZW4=",
-                            credential: "107cde88-0f4a-11ed-b61b-0242ac120004",
-                            urls: [
-                                "turn:fr-turn1.xirsys.com:80?transport=udp",
-                                "turn:fr-turn1.xirsys.com:3478?transport=udp",
-                                "turn:fr-turn1.xirsys.com:80?transport=tcp",
-                                "turn:fr-turn1.xirsys.com:3478?transport=tcp",
-                                "turns:fr-turn1.xirsys.com:443?transport=tcp",
-                                "turns:fr-turn1.xirsys.com:5349?transport=tcp"
-                            ]
-                         }] },  debug: 3});
+                        peerRef.current = new Peer(ourUuid, {
+                            config: {
+                                iceServers: [
+                                    {
+                                        urls: "stun:stun.tft-coaching.com:443",
+                                    },
+                                    {
+                                        urls: "turn:turn.tft-coaching.com:443",
+                                        username: "turn",
+                                        credential: 'nkdhynpqmsxsqk', //todo change when we move to production
+                                    }]
+                            }, debug: 3
+                        });
 
                         function callUser(userId) {
                             setCallConnected(true)
@@ -54,9 +53,9 @@ export default function useCall(uuid, socket,) {
                             call.on('close', () => {
                                 console.log('closed')
                             })
-                          
+
                             //peers[userId] = call
-                          }
+                        }
 
 
                         peerRef.current.on('call', call => {
@@ -65,8 +64,8 @@ export default function useCall(uuid, socket,) {
                             call.on('stream', userVideoStream => {
                                 theirStreamRef.current.srcObject = userVideoStream
                             })
-                          })
-                        
+                        })
+
 
                         console.log('got ur media')
                         ourStream.current = stream
