@@ -131,7 +131,7 @@ export default function App() {
                     </div>}
 
                     {(connectionState !== 'disconnected') &&
-                        <div className='flex flex-row gap-2 justify-center'>
+                        <div className='flex flex-col xl:flex-row gap-2 justify-center'>
                             <Button onClick={endCall} 
                                 src='/img/old-telephone.svg' 
                                 text='End Call'
