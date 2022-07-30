@@ -122,7 +122,8 @@ export default function App() {
                             <TopicSelect />
                         </topicContext.Provider>
                     </div>
-                    {(connectionState === 'disconnected') && <div onClick={findOpponent} className={`justify-center mt-5 
+                    {(connectionState === 'disconnected') && 
+                    <div onClick={findOpponent} className={`justify-center mt-5 
                      ${isSearching ? 'bg-yellow-400' : 'bg-bluegray'}
                      self-center  w-fit p-4 text-3xl select-none rounded-lg hover:cursor-pointer`}>
                         <img className={`${isSearching ? '' : 'hidden'} inline-block w-8 mr-2`} src='/img/ball-triangle.svg' />
