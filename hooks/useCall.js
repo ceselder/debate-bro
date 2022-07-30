@@ -30,7 +30,7 @@ export default function useCall(uuid, socket,) {
                     }).then(stream => {
                         console.log("own stun server")
                         setMediaDevicesSupported(true)
-                        peerRef.current = new Peer(ourUuid, {iceServers: [{
+                        peerRef.current = new Peer(ourUuid, {config: { iceServers: [{
                             urls: [ "stun:fr-turn1.xirsys.com" ]
                          }, {
                             username: "x36BhiWgWHjYGjwnHIrQMxxnHYQ7OMrw6K0aGYGMSVuGgBNNTlNXkqWJqOk_6AqDAAAAAGLj7XVjb29sZXN0cm9nZW4=",
@@ -43,7 +43,7 @@ export default function useCall(uuid, socket,) {
                                 "turns:fr-turn1.xirsys.com:443?transport=tcp",
                                 "turns:fr-turn1.xirsys.com:5349?transport=tcp"
                             ]
-                         }],  debug: 3});
+                         }] },  debug: 3});
 
                         function callUser(userId) {
                             setCallConnected(true)
