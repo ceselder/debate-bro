@@ -28,6 +28,7 @@ export default function useCall(uuid, socket,) {
                         audio: true,
                         video: true,
                     }).then(stream => {
+                        console.log("own stun server")
                         setMediaDevicesSupported(true)
                         peerRef.current = new Peer(ourUuid, {iceServers: [{
                             urls: [ "stun:fr-turn1.xirsys.com" ]
