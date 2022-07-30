@@ -34,10 +34,10 @@ export default function useCall(uuid, socket,) {
                             config: {
                                 iceServers: [
                                     {
-                                        urls: "stun:stun.tft-coaching.com:443",
+                                        urls: ["stun:stun.debate-bro.com:5349", "stun:stun.debate-bro.com:3478"]
                                     },
                                     {
-                                        urls: "turn:turn.tft-coaching.com:443",
+                                        urls: ["turn:turn.debate-bro.com:5349", "stun:stun.debate-bro.com:3478"],
                                         username: "turn",
                                         credential: 'nkdhynpqmsxsqk', //todo change when we move to production
                                     }]
