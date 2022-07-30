@@ -9,9 +9,8 @@ export const SocketContext = createContext();
 const uuid = uuidv4()
 
 const allTopics = ['Veganism', 'Abortion', 'Communism',
-    'Capitalism', 'Religion', 'Republicans',
-    'Social Democracy', 'Socialism', 'Racism'
-    , 'Immigration', 'CRT', 'BLM']
+    'Capitalism', 'Religion', 'Socialism', 'Gun Control'
+    , 'Traditional Gender Roles', 'Immigration', 'Trans Agenda']
 
 export const topicContext = createContext()
 
