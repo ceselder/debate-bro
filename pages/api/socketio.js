@@ -54,6 +54,13 @@ const ioHandler = (req, res) => {
                             matchMakingMap.delete(uuid)
                         });
 
+                        socket.on('disconnected', function () {
+                            console.log('disconnected')
+                            io.in(key).emit('call ended')
+                            io.in(uuid).emit('call ended')
+                            matchMakingMap.delete(uuid)
+                        });
+
                         socket.on('cancel search', () => 
                         {
                             matchMakingMap.delete(uuid)

@@ -29,6 +29,27 @@ export default function App() {
     const [isMatched, setIsMatched] = useState(false)
     const [matchedTopic, setMatchedTopic] = useState('...')
 
+    function cycleTopic(topics, topic)
+    {
+        const returnTopics = [...topics]
+            for (let i = 0; i < returnTopics.length; i++)
+            {
+                if (returnTopics[i] === topic)
+                {
+                    returnTopics.splice(i,1)
+                    returnTopics.push(topic)
+                    break;
+                }
+            }
+        return returnTopics
+    }
+
+    function cycleTopics(topic)
+    {
+        setDefendTopics(topics => cycleTopic(topics, topic))
+        setAttackTopics(topics => cycleTopic(topics, topic))
+    }
+
     function findOpponent() {
         setIsSearching(oldSearching => {
             const newSearching = !oldSearching
@@ -71,7 +92,12 @@ export default function App() {
                 setIsSearching(false)
                 setIsMatched(true)
                 setMatchedTopic(payload.topic)
+                cycleTopics(payload.topic)
                 setEvents(ev => [...ev, `matched on ${payload.topic}!`])
+            })
+
+            socket.on('call ended', () => {
+                setIsMatched(false)
             })
 
             socket.on('disconnect', () => {
