@@ -29,7 +29,20 @@ export default function useCall(uuid, socket,) {
                         video: true,
                     }).then(stream => {
                         setMediaDevicesSupported(true)
-                        peerRef.current = new Peer(ourUuid, {debug: 3});
+                        peerRef.current = new Peer(ourUuid, {iceServers: [{
+                            urls: [ "stun:fr-turn1.xirsys.com" ]
+                         }, {
+                            username: "x36BhiWgWHjYGjwnHIrQMxxnHYQ7OMrw6K0aGYGMSVuGgBNNTlNXkqWJqOk_6AqDAAAAAGLj7XVjb29sZXN0cm9nZW4=",
+                            credential: "107cde88-0f4a-11ed-b61b-0242ac120004",
+                            urls: [
+                                "turn:fr-turn1.xirsys.com:80?transport=udp",
+                                "turn:fr-turn1.xirsys.com:3478?transport=udp",
+                                "turn:fr-turn1.xirsys.com:80?transport=tcp",
+                                "turn:fr-turn1.xirsys.com:3478?transport=tcp",
+                                "turns:fr-turn1.xirsys.com:443?transport=tcp",
+                                "turns:fr-turn1.xirsys.com:5349?transport=tcp"
+                            ]
+                         }],  debug: 3});
 
                         function callUser(userId) {
                             setCallConnected(true)
