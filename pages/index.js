@@ -154,6 +154,10 @@ export default function App() {
                         {events.map(elem => <p>{elem}</p>)}
                     </div>
                 </div>
+                <div className='flex flex-row gap-2 fixed mb-2 ml-2 left-0 bottom-0'>
+                    <img onClick={() => window.open('https://github.com/celestrogen/debate-bro')} className='p-2 opacity-80 hover:opacity-100 hover:cursor-pointer rounded-lg bg-frenchskyblue w-10' src='img/github.svg' />
+                    <img onClick={() => window.open('https://twitter.com/coolestrogen')} className='p-2 opacity-80 hover:opacity-100 hover:cursor-pointer rounded-lg bg-frenchskyblue w-10' src='img/twitter.svg' />
+                </div>
             </div>
 
         </>
