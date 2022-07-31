@@ -5,10 +5,10 @@
 @font-face {
     font-family: 'MyWebFont';
     src:  url('/fonts/simvoni.ttf') format('truetype');
+    font-display: swap;
   }
 
 .text-simvoni
 {
     font-family: 'MyWebFont';
-    font-display: swap;
 }

@@ -38,7 +38,7 @@ export default function useCall(uuid, socket,) {
                                         urls: ["stun:stun.debate-bro.com:5349", "stun:stun.debate-bro.com:3478"]
                                     },
                                     {
-                                        urls: ["turn:turn.debate-bro.com:5349", "stun:stun.debate-bro.com:3478"],
+                                        urls: ["turn:turn.debate-bro.com:5349", "turn:turn.debate-bro.com:3478"],
                                         username: "turn",
                                         credential: process.env.TURN_PASS, //todo change when we move to production
                                     }]
