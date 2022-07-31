@@ -24,6 +24,7 @@ const ioHandler = (req, res) => {
         const io = new Server(res.socket.server)
 
         io.on('connection', socket => {
+            socket.emit('online users', { onlineUsers: io.engine.clientsCount} )
             socket.on('find match', ({ uuid, defendTopics, attackTopics }) => {
                 socket.join(uuid)
                 let matchFound = false
@@ -56,7 +57,6 @@ const ioHandler = (req, res) => {
                         }
 
                         matchMakingMap.delete(key)
-                        console.log(`found match ${key}`)
 
                         const payload = {parent: key, child: uuid, topic: matchedTopic}
 

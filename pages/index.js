@@ -31,6 +31,7 @@ export default function App() {
     const [availableTopics, setAvailableTopics] = useLocalStorage('availableTopics', allTopics.sort())
     const [defendTopics, setDefendTopics] = useLocalStorage('defendTopics', [])
     const [attackTopics, setAttackTopics] = useLocalStorage('attackTopics', [])
+    const [onlineUsers, setOnlineUsers] = useState(0)
 
     const [isDragging, setIsDragging] = useState()
     const [isSearching, setIsSearching] = useState(false)
@@ -103,6 +104,10 @@ export default function App() {
 
             socket.on('call ended', () => {
                 setIsMatched(false)
+            })
+            
+            socket.on('online users', ({ onlineUsers} ) => {
+                setOnlineUsers(onlineUsers)
             })
         }
     }, [socket])
@@ -177,6 +182,9 @@ export default function App() {
                         </div>
                     }
                 </div>
+                {(onlineUsers > 5) && <div className='mt-2 text-lg'>
+                    <span className='text-green-400'>{onlineUsers}</span> users online!
+                </div>}
                 <div className='flex flex-row gap-2 mr-2 mt-2 fixed right-0 top-0'>
                     <img onClick={() => window.open('https://github.com/celestrogen/debate-bro')} className='p-2 opacity-80 hover:opacity-100 hover:cursor-pointer rounded-lg bg-frenchskyblue w-10 h-10' src='img/github.svg' alt="github"/>
                     <img onClick={() => window.open('https://twitter.com/coolestrogen')} className='p-2 opacity-80 hover:opacity-100 hover:cursor-pointer rounded-lg bg-frenchskyblue w-10 h-10' src='img/twitter.svg' alt="twitter" />
