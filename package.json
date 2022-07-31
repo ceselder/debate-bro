@@ -13,6 +13,7 @@
     "@fortawesome/free-solid-svg-icons": "^6.1.2",
     "@fortawesome/react-fontawesome": "^0.2.0",
     "next": "latest",
+    "nextjs-google-analytics": "^2.0.0",
     "peer": "^0.6.1",
     "peerjs": "^1.4.6",
     "react": "17.0.2",

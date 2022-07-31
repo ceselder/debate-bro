@@ -10,6 +10,7 @@ function MyApp({ Component, pageProps }) {
                     name="description"
                     content="Easily find someone to debate online! Omegle for politics."></meta>
             </Head>
+            <GoogleAnalytics />
             <Component {...pageProps} />
         </>
     )
