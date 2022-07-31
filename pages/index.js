@@ -25,17 +25,12 @@ export const topicContext = createContext()
 
 export default function App() {
     const [socket, setSocket] = useState(null)
-    const [events, setEvents] = useState([])
     const [connectionState, ourStreamRef, theirStreamRef] = useCall(uuid, socket)
 
 
     const [availableTopics, setAvailableTopics] = useLocalStorage('availableTopics', allTopics.sort())
     const [defendTopics, setDefendTopics] = useLocalStorage('defendTopics', [])
     const [attackTopics, setAttackTopics] = useLocalStorage('attackTopics', [])
-
-    /*const [availableTopics, setAvailableTopics] = useState(allTopics.sort())
-    const [defendTopics, setDefendTopics] = useState([])
-    const [attackTopics, setAttackTopics] = useState([])*/
 
 
     const [isDragging, setIsDragging] = useState()
@@ -74,7 +69,6 @@ export default function App() {
                     attackTopics: attackTopics,
                     defendTopics: defendTopics
                 })
-                setEvents(events => [...events, 'finding match...'])
             }
             else
             {
@@ -99,7 +93,6 @@ export default function App() {
     useEffect(() => {
         if (socket != null) {
             socket.on('connect', () => {
-                setEvents(events => [...events, 'connected'])
                 socket.emit('hello')
             })
 
@@ -108,15 +101,10 @@ export default function App() {
                 setIsMatched(true)
                 setMatchedTopic(payload.topic)
                 cycleTopics(payload.topic)
-                setEvents(ev => [...ev, `matched on ${payload.topic}!`])
             })
 
             socket.on('call ended', () => {
                 setIsMatched(false)
-            })
-
-            socket.on('disconnect', () => {
-                setEvents(events => [...events, 'Disconnected'])
             })
         }
     }, [socket])

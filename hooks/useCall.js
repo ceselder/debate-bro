@@ -5,7 +5,6 @@ import io from 'socket.io-client'
 
 export default function useCall(uuid, socket,) {
     const [connectionState, setConnectionState] = useState('disconnected')
-    const [mediaDevicesSupported, setMediaDevicesSupported] = useState()
     const ourUuid = uuid
     const ourStream = useRef()
     const ourStreamRef = useRef()
@@ -21,7 +20,7 @@ export default function useCall(uuid, socket,) {
             if (!navigator || navigator === undefined || navigator.mediaDevices === undefined) {
                 console.log('navigator issue')
                 //setEvents(events => [...events, 'media devices undefined!'])
-                setMediaDevicesSupported(false)
+                alert('Could not get your camera/audio... Please use a different browser!')
             }
             else {
                 import('peerjs').then(({ default: Peer }) => {
@@ -30,7 +29,6 @@ export default function useCall(uuid, socket,) {
                         video: true,
                     }).then(stream => {
                         console.log("own stun server")
-                        setMediaDevicesSupported(true)
                         peerRef.current = new Peer(ourUuid, {
                             config: {
                                 iceServers: [
