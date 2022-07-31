@@ -34,7 +34,7 @@ const ioHandler = (req, res) => {
                     {
                         const other = ongoingCallsMap.get(uuid)
                         io.in(other).emit('call ended')
-                        ongoingCallsMap.delete(key)
+                        ongoingCallsMap.delete(other)
                         ongoingCallsMap.delete(uuid)
                     }
                 }
@@ -59,20 +59,6 @@ const ioHandler = (req, res) => {
                         console.log(`found match ${key}`)
 
                         const payload = {parent: key, child: uuid, topic: matchedTopic}
-
-                        socket.on('disconnecting', function () {
-                            console.log('disconnected')
-                            io.in(key).emit('call ended')
-                            io.in(uuid).emit('call ended')
-                            matchMakingMap.delete(uuid)
-                        });
-
-                        socket.on('disconnected', function () {
-                            console.log('disconnected')
-                            io.in(key).emit('call ended')
-                            io.in(uuid).emit('call ended')
-                            matchMakingMap.delete(uuid)
-                        });
 
                         socket.on('cancel search', () => 
                         {
