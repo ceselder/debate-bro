@@ -14,7 +14,7 @@ export default function DroppableTopicList({ isDragging, title, droppableId, top
                          rounded-xl border-2 border-dotted h-full p-2 select-none 
                          overflow-x-clip overflow-y-auto `}>
                         <div
-                            className='flex flex-wrap w-24 md:w-52 lg:w-72 xl:w-80 align-center justify-center'>
+                            className='flex flex-wrap w-24 md:w-56 lg:w-72 xl:w-[22rem] 2xl:w-[28rem] 3xl:w-[34rem] align-center justify-center'>
                             {topicsList.map((topic, index) =>
                                 <DraggableTopicElem topic={topic} index={index} />)}
                         </div>

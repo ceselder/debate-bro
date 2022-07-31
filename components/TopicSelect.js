@@ -9,13 +9,16 @@ import DraggableTopicElem from './DraggableTopicElem'
 import DroppableTopicList from './DroppableTopicList'
 import { topicContext } from '../pages'
 
+resetServerContext()
+
 export default function TopicSelect() {
-  resetServerContext()
-  const [connectionState, isSearching,
-  [availableTopics, setAvailableTopics], 
-  [defendTopics, setDefendTopics], 
-  [attackTopics, setAttackTopics], 
-  [isDragging, setIsDragging],] = useContext(topicContext)
+  const [
+    connectionState, 
+    isSearching,
+    [availableTopics, setAvailableTopics],
+    [defendTopics, setDefendTopics],
+    [attackTopics, setAttackTopics],
+    [isDragging, setIsDragging]] = useContext(topicContext)
 
   const droppableIdToArrayDict =
   {
@@ -51,8 +54,8 @@ export default function TopicSelect() {
 
   return (
     <>
-      <DragDropContext onDragStart={() => setIsDragging(true)} dis onDragEnd={handleDragEnd}>
-        <div className={`${(connectionState !== 'disconnected' || isSearching) ? 'opacity-75' : 'opacity-100'} flex flex-row justify-between gap-4 md:gap-6 lg:gap-8 xl:gap-10 h-[18rem] my-4 text-center`}>
+      <DragDropContext onDragStart={() => {setIsDragging(true); console.log(attackTopics, availableTopics, defendTopics)}} onDragEnd={handleDragEnd}>
+        <div className={`${(connectionState !== 'disconnected' || isSearching) ? 'opacity-75' : 'opacity-100'} flex flex-row justify-between gap-4 md:gap-6 lg:gap-8 xl:gap-10 2xl:gap-14 h-[18rem] my-4 text-center`}>
           <div className='flex flex-col mt-4 '>
             <DroppableTopicList isDragging={isDragging} title={'I want to debate in favor of'} droppableId={'defendTopics'} topicsList={defendTopics} />
           </div>

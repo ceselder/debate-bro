@@ -4,14 +4,22 @@ import io from 'socket.io-client'
 import useCall from '../hooks/useCall';
 import TopicSelect from '../components/TopicSelect';
 import Button from '../components/Button';
+import useLocalStorage from '../hooks/useLocalStorage';
 
 export const SocketContext = createContext();
 const uuid = uuidv4()
 
-const allTopics = ['Veganism', 'Abortion', 'Communism',
-    'Capitalism', 'Religion', 'Socialism', 'Gun Control'
-    , 'Traditional Gender Roles', 'Immigration', 'Trans Agenda',
-    'Privatized Healthcare']
+const allTopics = [
+    //economic issues
+    'Keynesian Economics', 'Austrian Economics', 'Monetarism',
+    'Anarcho Capitalism', 'Right Libertarianism', 
+    'Communism',  'Socialism', 'Neoliberalism', 'Privatized Healthcare', 'UBI', 'MMT',
+    '"Taxation Is Theft"', 'Anarchism', 'Unions', 'Crypto',
+
+    //other issues
+    'Veganism', 'Abortion', 'Gun Control', 'Religion', 
+    'Immigration', 'Trans Agenda', 'Feminism', 'Democracy', 
+    'Isolationism', ]
 
 export const topicContext = createContext()
 
@@ -20,9 +28,16 @@ export default function App() {
     const [events, setEvents] = useState([])
     const [connectionState, ourStreamRef, theirStreamRef] = useCall(uuid, socket)
 
-    const [availableTopics, setAvailableTopics] = useState(allTopics)
+
+    const [availableTopics, setAvailableTopics] = useLocalStorage('availableTopics', allTopics.sort())
+    const [defendTopics, setDefendTopics] = useLocalStorage('defendTopics', [])
+    const [attackTopics, setAttackTopics] = useLocalStorage('attackTopics', [])
+
+    /*const [availableTopics, setAvailableTopics] = useState(allTopics.sort())
     const [defendTopics, setDefendTopics] = useState([])
-    const [attackTopics, setAttackTopics] = useState([])
+    const [attackTopics, setAttackTopics] = useState([])*/
+
+
     const [isDragging, setIsDragging] = useState()
     const [isSearching, setIsSearching] = useState(false)
 
