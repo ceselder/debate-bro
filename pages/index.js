@@ -128,7 +128,7 @@ export default function App() {
                 <h1 className='text-4xl lg:text-6xl xl:text-8xl mt-5'>debate<span className='text-frenchskyblue'>-</span>bro<span className='text-frenchskyblue'>.com</span></h1>
                 <div className='flex flex-col lg:flex-row gap-4 lg:gap-6 xl:gap-8 2xl:gap-10 mx-20 my-5 justify-evenly align-center self-center'>
                     <video muted
-                        autoPlay="true"
+                        autoPlay={true}
                         ref={ourStreamRef}
                         className={`aspect-[4/3] border-[0.5rem] rounded-2xl object-cover border-frenchskyblue 
                         flex self-center ${(connectionState !== 'disconnected')
@@ -142,7 +142,7 @@ export default function App() {
                         <img src='/img/three-dots.svg' className='block w-1/6 m-auto' />
                     </div>
 
-                    <video autoPlay="true"
+                    <video autoPlay={true}
                         ref={theirStreamRef}
                         className={`aspect-[4/3] border-[0.5rem] rounded-2xl object-cover border-frenchskyblue flex shrink-0 self-center 
                         ${(connectionState === 'connected') ? '' : 'hidden'} 
@@ -190,10 +190,6 @@ export default function App() {
                             />
                         </div>
                     }
-
-                    <div>
-                        {events.map(elem => <p>{elem}</p>)}
-                    </div>
                 </div>
                 <div className='flex flex-row gap-2 mr-2 mt-2 fixed right-0 top-0'>
                     <img onClick={() => window.open('https://github.com/celestrogen/debate-bro')} className='p-2 opacity-80 hover:opacity-100 hover:cursor-pointer rounded-lg bg-frenchskyblue w-10 h-10' src='img/github.svg' alt="github"/>

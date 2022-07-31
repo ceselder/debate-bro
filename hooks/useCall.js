@@ -40,7 +40,7 @@ export default function useCall(uuid, socket,) {
                                     {
                                         urls: ["turn:turn.debate-bro.com:5349", "stun:stun.debate-bro.com:3478"],
                                         username: "turn",
-                                        credential: 'nkdhynpqmsxsqk', //todo change when we move to production
+                                        credential: process.env.TURN_PASS, //todo change when we move to production
                                     }]
                             }, debug: 3
                         });
