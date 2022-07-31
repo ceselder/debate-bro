@@ -11,15 +11,16 @@ const uuid = uuidv4()
 
 const allTopics = [
     //economic issues
-    'Keynesian Economics', 'Austrian Economics', 'Monetarism',
-    'Anarcho Capitalism', 'Right Libertarianism', 
-    'Communism', 'Socialism', 'Neoliberalism', 'Privatized Healthcare', 'UBI', 'MMT',
-    '"Taxation Is Theft"', 'Anarchism', 'Unions', 'Crypto',
+    'Keynesian Economics', 'Austrian Economics', 'Anarcho-Capitalism',
+    'Anarcho-Communism', 'Right Libertarianism', 
+    'Communism', 'Socialism', 'Neoliberalism', 'Privatized Healthcare', 
+    'UBI', 'MMT', '"Taxation Is Theft"', 'Reformism',
+    'Unions', 'Crypto',
 
     //other issues
     'Veganism', 'Abortion', 'Gun Control', 'Religion', 
-    'Immigration', 'Trans Agenda', 'Feminism', 'Democracy', 
-    'Isolationism', ]
+    'Immigration', 'Transgenderism', 'Feminism', 'Democracy', 
+    'Isolationism', 'Political Violence' ]
 
 export const topicContext = createContext()
 
