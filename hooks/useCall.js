@@ -15,11 +15,8 @@ export default function useCall(uuid, socket,) {
 
     useEffect(() => {
         if (socket != null) {
-            console.log('call connection established')
 
             if (!navigator || navigator === undefined || navigator.mediaDevices === undefined) {
-                console.log('navigator issue')
-                //setEvents(events => [...events, 'media devices undefined!'])
                 alert('Could not get your camera/audio... Please use a different browser!')
             }
             else {
@@ -28,7 +25,6 @@ export default function useCall(uuid, socket,) {
                         audio: true,
                         video: true,
                     }).then(stream => {
-                        console.log("own stun server")
                         peerRef.current = new Peer(ourUuid, {
                             config: {
                                 iceServers: [
@@ -40,7 +36,7 @@ export default function useCall(uuid, socket,) {
                                         username: "turn",
                                         credential: process.env.TURN_PASS, //todo change when we move to production
                                     }]
-                            }, debug: 3
+                            }, debug: 0 //3 for full logs
                         });
 
                         function setTheirStream(stream)
@@ -69,13 +65,11 @@ export default function useCall(uuid, socket,) {
                         })
 
 
-                        console.log('got ur media')
                         ourStream.current = stream
                         ourStreamRef.current.srcObject = stream;
 
                         socket.on('matched', (msg) => {
                             if (ourUuid == msg.parent) {
-                                console.log('matched', msg)
                                 otherUser.current = msg.child
                                 callUser(msg.child)
                             }

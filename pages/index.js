@@ -13,7 +13,7 @@ const allTopics = [
     //economic issues
     'Keynesian Economics', 'Austrian Economics', 'Monetarism',
     'Anarcho Capitalism', 'Right Libertarianism', 
-    'Communism',  'Socialism', 'Neoliberalism', 'Privatized Healthcare', 'UBI', 'MMT',
+    'Communism', 'Socialism', 'Neoliberalism', 'Privatized Healthcare', 'UBI', 'MMT',
     '"Taxation Is Theft"', 'Anarchism', 'Unions', 'Crypto',
 
     //other issues
@@ -27,11 +27,9 @@ export default function App() {
     const [socket, setSocket] = useState(null)
     const [connectionState, ourStreamRef, theirStreamRef] = useCall(uuid, socket)
 
-
     const [availableTopics, setAvailableTopics] = useLocalStorage('availableTopics', allTopics.sort())
     const [defendTopics, setDefendTopics] = useLocalStorage('defendTopics', [])
     const [attackTopics, setAttackTopics] = useLocalStorage('attackTopics', [])
-
 
     const [isDragging, setIsDragging] = useState()
     const [isSearching, setIsSearching] = useState(false)
@@ -72,7 +70,6 @@ export default function App() {
             }
             else
             {
-                console.log('cancelling search')
                 socket.emit('cancel search')
             }
             return newSearching
