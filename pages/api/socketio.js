@@ -16,6 +16,7 @@ function lookForMatch(defendTopics, attackTopics)
     return null
 }
 
+
 const ioHandler = (req, res) => {
     if (!res.socket.server.io) {
         console.log('*First use, starting socket.io')
@@ -26,6 +27,23 @@ const ioHandler = (req, res) => {
             socket.on('find match', ({ uuid, defendTopics, attackTopics }) => {
                 socket.join(uuid)
                 let matchFound = false
+
+                const endCall = () => {
+                    io.in(uuid).emit('call ended')
+                    if (ongoingCallsMap.has(uuid))
+                    {
+                        const other = ongoingCallsMap.get(uuid)
+                        io.in(other).emit('call ended')
+                        ongoingCallsMap.delete(key)
+                        ongoingCallsMap.delete(uuid)
+                    }
+                }
+
+                socket.on('end call', endCall)
+
+                socket.on('disconnecting', endCall)
+
+                socket.on('disconnected', endCall )
 
                 for (const [key, value] of matchMakingMap) {
                     if (key !== uuid) {
@@ -41,11 +59,6 @@ const ioHandler = (req, res) => {
                         console.log(`found match ${key}`)
 
                         const payload = {parent: key, child: uuid, topic: matchedTopic}
-                    
-                        socket.on('end call', function () {
-                            io.in(key).emit('call ended')
-                            io.in(uuid).emit('call ended')
-                        })
 
                         socket.on('disconnecting', function () {
                             console.log('disconnected')

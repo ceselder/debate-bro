@@ -10,7 +10,8 @@ const uuid = uuidv4()
 
 const allTopics = ['Veganism', 'Abortion', 'Communism',
     'Capitalism', 'Religion', 'Socialism', 'Gun Control'
-    , 'Traditional Gender Roles', 'Immigration', 'Trans Agenda']
+    , 'Traditional Gender Roles', 'Immigration', 'Trans Agenda',
+    'Privatized Healthcare']
 
 export const topicContext = createContext()
 
