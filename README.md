@@ -3,5 +3,7 @@
 Easily find someone to debate online
 
 ## TODO
-* change drag library to react-kit since current library is ugly
+* Change drag library to react-kit since current library is ugly
 * Add avatar option as alternative to camera
+* Fix bug where you get a selected topic but no call spawns
+* Add a "currently in queue" counter
