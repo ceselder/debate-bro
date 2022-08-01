@@ -35,6 +35,7 @@ const ioHandler = (req, res) => {
                     {
                         const other = ongoingCallsMap.get(uuid)
                         io.in(other).emit('call ended')
+                        matchMakingMap.delete(uuid)
                         ongoingCallsMap.delete(other)
                         ongoingCallsMap.delete(uuid)
                     }
