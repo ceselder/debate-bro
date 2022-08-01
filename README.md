@@ -15,3 +15,5 @@ Next.js + WebRTC (peer.js)
 * Add a "currently in queue" counter
 * Add some philosophy topics
 * Add some pretty framer-motion animations
+* Add a favicon
+* Add a graphic for when someone doesnt have a camera
