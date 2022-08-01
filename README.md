@@ -1,6 +1,6 @@
 # Debate Bro
 
-Easily find someone to debate online
+Easily find someone to debate online in an omegle-style showoff
 
 [Go to site](https://debate-bro.com/)
 
