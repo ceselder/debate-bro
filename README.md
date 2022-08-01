@@ -1,8 +1,8 @@
-### Debate Bro
+# Debate Bro
 
 Easily find someone to debate online
 
-### Tech Stack
+## Tech Stack
 
 Next.js + WebRTC (peer.js)
 
