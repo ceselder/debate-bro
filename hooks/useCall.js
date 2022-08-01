@@ -86,12 +86,6 @@ export default function useCall(uuid, socket,) {
                     }).then(stream => {
                         initStream(stream)
                     })
-                    .catch(
-                        navigator.mediaDevices.getUserMedia({
-                            audio: true,
-                            video: false,
-                        }).then(stream => initStream(stream))
-                    );
                 });
             }
         }
