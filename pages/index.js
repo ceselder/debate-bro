@@ -117,6 +117,7 @@ export default function App() {
 
             <div className='h-full min-h-[100vh] w-full text-simvoni flex text-center flex-col text-white bg-spacecadet '>
                 <h1 className='text-4xl lg:text-6xl xl:text-8xl mt-5'>debate<span className='text-frenchskyblue'>-</span>bro<span className='text-frenchskyblue'>.com</span></h1>
+                <h3>AUDIO ONLY IS BROKEN USE SOMETHING WITH A CAMERA LIKE A LAPTOP OR PHONE</h3>
                 <div className='flex flex-col lg:flex-row gap-4 lg:gap-6 xl:gap-8 2xl:gap-10 mx-20 my-5 justify-evenly align-center self-center'>
                     <video muted
                         autoPlay={true}
