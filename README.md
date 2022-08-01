@@ -2,6 +2,10 @@
 
 Easily find someone to debate online
 
+### Tech Stack
+
+Next.js + WebRTC (peer.js)
+
 ## TODO
 * Change drag library to react-kit since current library is ugly
 * Add avatar option as alternative to camera
