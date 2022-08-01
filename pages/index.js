@@ -146,14 +146,14 @@ export default function App() {
                           w-[32rem] 2xl:w-[44rem] 3xl:w-[56rem]`}>
                     </video>
                 </div>
-                {!isMatched && <div className='justify-center flex flex-row gap-10'>
+                {(!streamReady) && <div className='justify-center flex flex-row gap-10 mb-20'>
                             <Button onClick={() => requestUserMedia({ audio: true })} 
-                                src='/img/skip.svg'
+                                src='/img/microphone.svg'
                                 text='Audio Only'
                                 color='bg-frenchskyblue'
                             />
                             <Button onClick={() => requestUserMedia({ audio: true, video: true })} 
-                                src='/img/skip.svg'
+                                src='/img/video.svg'
                                 text='Video and Audio'
                                 color='bg-frenchskyblue'
                             />

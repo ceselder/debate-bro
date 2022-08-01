@@ -1,7 +1,14 @@
 import { useRef, useState, useEffect } from "react"
 import io from 'socket.io-client'
 
-
+var options = {
+    'constraints': {
+        'mandatory': {
+            'OfferToReceiveAudio': true,
+            'OfferToReceiveVideo': true
+        }
+    }
+}
 
 export default function useCall(uuid, socket) {
     const [connectionState, setConnectionState] = useState('disconnected')
@@ -19,6 +26,7 @@ export default function useCall(uuid, socket) {
     {
         navigator.mediaDevices.getUserMedia(params)
         .then(stream => {
+            console.log(stream)
             setOurStream(stream)
         })
     }
@@ -54,7 +62,7 @@ export default function useCall(uuid, socket) {
 
                         function callUser(userId) {
                             setConnectionState('connecting')
-                            callRef.current = peerRef.current.call(userId, ourStream)
+                            callRef.current = peerRef.current.call(userId, ourStream, options)
                             callRef.current.on('stream', setTheirStream)
                             /*call.on('close', () => {
                                 setConnectionState('disconnected')
