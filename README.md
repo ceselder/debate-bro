@@ -2,6 +2,8 @@
 
 Easily find someone to debate online
 
+[Go to site](https://debate-bro.com/)
+
 ## Tech Stack
 
 Next.js + WebRTC (peer.js)
