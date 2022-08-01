@@ -13,6 +13,8 @@ export default function useCall(uuid, socket,) {
     const otherUser = useRef()
     const callRef = useRef()
 
+
+
     useEffect(() => {
         if (socket != null) {
 
@@ -21,10 +23,8 @@ export default function useCall(uuid, socket,) {
             }
             else {
                 import('peerjs').then(({ default: Peer }) => {
-                    navigator.mediaDevices.getUserMedia({
-                        audio: true,
-                        video: true,
-                    }).then(stream => {
+
+                    function initStream(stream) {
                         peerRef.current = new Peer(ourUuid, {
                             config: {
                                 iceServers: [
@@ -39,8 +39,7 @@ export default function useCall(uuid, socket,) {
                             }, debug: 0 //3 for full logs
                         });
 
-                        function setTheirStream(stream)
-                        {
+                        function setTheirStream(stream) {
                             theirStreamRef.current.srcObject = stream
                             setConnectionState('connected')
                         }
@@ -79,8 +78,20 @@ export default function useCall(uuid, socket,) {
                             setConnectionState('disconnected')
                             callRef.current.close()
                         })
+                    }
 
-                    });
+                    navigator.mediaDevices.getUserMedia({
+                        audio: true,
+                        video: true,
+                    }).then(stream => {
+                        initStream(stream)
+                    })
+                    .catch(
+                        navigator.mediaDevices.getUserMedia({
+                            audio: true,
+                            video: false,
+                        }).then(stream => initStream(stream))
+                    );
                 });
             }
         }
