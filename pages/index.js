@@ -26,7 +26,11 @@ export const topicContext = createContext()
 
 export default function App() {
     const [socket, setSocket] = useState(null)
-    const [connectionState, ourStreamRef, theirStreamRef] = useCall(uuid, socket)
+    const [ streamReady,
+            requestUserMedia,
+            connectionState, 
+            ourStreamRef, 
+            theirStreamRef] = useCall(uuid, socket)
 
     const [availableTopics, setAvailableTopics] = useLocalStorage('availableTopics', allTopics.sort())
     const [defendTopics, setDefendTopics] = useLocalStorage('defendTopics', [])
@@ -35,6 +39,7 @@ export default function App() {
 
     const [isDragging, setIsDragging] = useState()
     const [isSearching, setIsSearching] = useState(false)
+
 
     const [isMatched, setIsMatched] = useState(false)
     const [matchedTopic, setMatchedTopic] = useState('...')
@@ -141,9 +146,21 @@ export default function App() {
                           w-[32rem] 2xl:w-[44rem] 3xl:w-[56rem]`}>
                     </video>
                 </div>
+                {!isMatched && <div className='justify-center flex flex-row gap-10'>
+                            <Button onClick={() => requestUserMedia({ audio: true })} 
+                                src='/img/skip.svg'
+                                text='Audio Only'
+                                color='bg-frenchskyblue'
+                            />
+                            <Button onClick={() => requestUserMedia({ audio: true, video: true })} 
+                                src='/img/skip.svg'
+                                text='Video and Audio'
+                                color='bg-frenchskyblue'
+                            />
+                </div>}
                 {isMatched &&
                     (<p className='text-3xl font-semibold '><span className='underline'>current topic:</span> <span className=' text-yellow-400'>{matchedTopic}</span> </p>)}
-                <div className='flex flex-col text-center self-center'>
+                {(streamReady) &&  <div className='flex flex-col text-center self-center'>
                     <div className='min-h-64'>
                         <topicContext.Provider value={[
                         connectionState, 
@@ -182,7 +199,7 @@ export default function App() {
                             />
                         </div>
                     }
-                </div>
+                </div>}
                 {(onlineUsers > 5) && <div className='mt-2 text-lg'>
                     <span className='text-green-400'>{onlineUsers}</span> users online!
                 </div>}

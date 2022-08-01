@@ -3,28 +3,36 @@ import io from 'socket.io-client'
 
 
 
-export default function useCall(uuid, socket,) {
+export default function useCall(uuid, socket) {
     const [connectionState, setConnectionState] = useState('disconnected')
+    const [streamReady, setStreamReady] = useState(false)
+
     const ourUuid = uuid
-    const ourStream = useRef()
+    const [ourStream, setOurStream] = useState(null)
     const ourStreamRef = useRef()
     const theirStreamRef = useRef()
     const peerRef = useRef()
     const otherUser = useRef()
     const callRef = useRef()
 
+    function requestUserMedia(params)
+    {
+        navigator.mediaDevices.getUserMedia(params)
+        .then(stream => {
+            setOurStream(stream)
+        })
+    }
 
 
     useEffect(() => {
-        if (socket != null) {
+        if (socket != null && ourStream) {
+            console.log('yay')
 
             if (!navigator || navigator === undefined || navigator.mediaDevices === undefined) {
                 alert('Could not get your camera/audio... Please use a different browser!')
             }
             else {
                 import('peerjs').then(({ default: Peer }) => {
-
-                    function initStream(stream) {
                         peerRef.current = new Peer(ourUuid, {
                             config: {
                                 iceServers: [
@@ -46,7 +54,7 @@ export default function useCall(uuid, socket,) {
 
                         function callUser(userId) {
                             setConnectionState('connecting')
-                            callRef.current = peerRef.current.call(userId, ourStream.current)
+                            callRef.current = peerRef.current.call(userId, ourStream)
                             callRef.current.on('stream', setTheirStream)
                             /*call.on('close', () => {
                                 setConnectionState('disconnected')
@@ -59,13 +67,12 @@ export default function useCall(uuid, socket,) {
                         peerRef.current.on('call', call => {
                             callRef.current = call
                             setConnectionState('connected')
-                            call.answer(ourStream.current)
+                            call.answer(ourStream)
                             call.on('stream', setTheirStream)
                         })
 
-
-                        ourStream.current = stream
-                        ourStreamRef.current.srcObject = stream;
+                        ourStreamRef.current.srcObject = ourStream;
+                        setStreamReady(true)
 
                         socket.on('matched', (msg) => {
                             if (ourUuid == msg.parent) {
@@ -78,19 +85,13 @@ export default function useCall(uuid, socket,) {
                             setConnectionState('disconnected')
                             callRef.current.close()
                         })
-                    }
 
-                    navigator.mediaDevices.getUserMedia({
-                        audio: true,
-                        video: true,
-                    }).then(stream => {
-                        initStream(stream)
-                    })
+                    
                 });
             }
         }
-    }, [socket])
+    }, [socket, ourStream])
 
 
-    return [connectionState, ourStreamRef, theirStreamRef]
+    return [streamReady, requestUserMedia, connectionState, ourStreamRef, theirStreamRef]
 }
