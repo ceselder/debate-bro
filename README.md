@@ -14,3 +14,4 @@ Next.js + WebRTC (peer.js)
 * Fix bug where you get a selected topic but no call spawns
 * Add a "currently in queue" counter
 * Add some philosophy topics
+* Add some pretty framer-motion animations
