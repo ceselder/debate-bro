@@ -17,3 +17,4 @@ Next.js + Socket.io + WebRTC (peer.js)
 * Add some pretty framer-motion animations
 * Add a favicon
 * Add a graphic for when someone doesnt have a camera
+* UseLocalStorage hook is not updating when topics change since it just reads local storage data
