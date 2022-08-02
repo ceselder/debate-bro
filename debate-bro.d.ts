@@ -4,5 +4,5 @@ declare type TopicCategory = typeof topicCategories[number];
 
 declare type Topic = {
     Category: TopicCategory;
-    Name: string
+    Name: string;
 } 
