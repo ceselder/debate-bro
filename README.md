@@ -6,7 +6,7 @@ Easily find someone to debate online in an omegle-style showoff
 
 ## Tech Stack
 
-Next.js + WebRTC (peer.js)
+Next.js + Socket.io + WebRTC (peer.js)
 
 ## TODO
 * Change drag library to react-kit since current library is ugly
