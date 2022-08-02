@@ -20,6 +20,8 @@ export default function TopicSelect() {
     [attackTopics, setAttackTopics],
     [isDragging, setIsDragging]] = useContext(topicContext)
 
+  
+
   const droppableIdToArrayDict =
   {
     'attackTopics': [attackTopics, setAttackTopics],

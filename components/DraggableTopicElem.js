@@ -15,14 +15,11 @@ function getStyle(style, snapshot) {
   };
 }
 
-
-
-
 export default function DraggableTopicElem({ topic, index }) {
   const [connectionState, isSearching] = useContext(topicContext)
 
   return (
-    (<Draggable isDragDisabled={(connectionState !== 'disconnected' || isSearching)} key={topic} draggableId={topic} index={index}>
+    (<Draggable isDragDisabled={(connectionState !== 'disconnected' || isSearching)} draggableId={topic.name} index={index}>
       {(provided, snapshot) => (
         <div {...provided.draggableProps}
              {...provided.dragHandleProps} 
@@ -31,7 +28,7 @@ export default function DraggableTopicElem({ topic, index }) {
           className='select-none hover:cursor-pointer h-min p-2 bg-frenchskyblue m-1 
                 rounded-lg'
         >
-          {topic}
+          {topic.name}
         </div>
       )}
     </Draggable>)
