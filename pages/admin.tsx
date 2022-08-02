@@ -13,10 +13,12 @@ type AdminPageProps = {
 
 export const AdminPage: NextPage<AdminPageProps> = ({ Topics, Categories, Error }) => {
     const [allowed, setAllowed] = useState<boolean>(false);
-
     const [username, setUsername] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const [authLoading, setAuthLoading] = useState<boolean>(false);
+
+    const [categories, setCategories] = useState<TopicCategory[]>(Categories);
+    const [topics] = useState<Topic[]>(Topics);
 
     const handleUsernameInput = ({ target: { value } }) => setUsername(value);
 
@@ -40,25 +42,27 @@ export const AdminPage: NextPage<AdminPageProps> = ({ Topics, Categories, Error 
 
     if (!allowed) {
         return (
-            <div className={"h-screen w-full flex bg-spacecadet text-simvoni"}>
-                <div className={"h-40 w-80 rounded-sm shadow-xl px-3 flex flex-col justify-center m-auto bg-[whitesmoke] relative"}>
-                    <div className={"my-2 text-2xl font-bold text-center select-none"}>
-                        Admin Login
-                    </div>
-                    <input onKeyDown={handleReturnPress} onChange={handleUsernameInput} value={username} type={"text"} placeholder={"Username"} className={"outline-none rounded-t-sm border-b-[1px] focus:shadow-[inset_0px_0px_2px_3px_rgba(59,130,246,0.6)] transition-shadow placeholder:text-center text-center h-10 text-xl"} />
-                    <input onKeyDown={handleReturnPress} onChange={handlePasswordInput} value={password} type={"password"} placeholder={"Password"} className={"outline-none rounded-b-sm border-t-[1px] focus:shadow-[inset_0px_0px_2px_3px_rgba(59,130,246,0.6)] transition-shadow placeholder:text-center text-center h-10 text-xl"} />
-                    {authLoading &&
-                        <div className={`absolute top-0 left-0 w-full h-full bg-gray-600 opacity-60`}>
-                            &nbsp;
+            <div className='h-full min-h-[100vh] w-full text-simvoni flex text-center flex-col text-white bg-spacecadet '>
+                <h1 className='text-4xl lg:text-6xl xl:text-8xl mt-5'>debate<span className='text-frenchskyblue'>-</span>bro<span className='text-frenchskyblue'>.com</span></h1>
+                    <div className={"h-40 w-80 rounded-sm shadow-xl px-3 flex flex-col justify-center m-auto bg-[whitesmoke] relative"}>
+                        <div className={"my-2 text-2xl font-bold text-black text-center select-none"}>
+                            Admin Login
                         </div>
-                    }
-                </div>
+                        <input onKeyDown={handleReturnPress} onChange={handleUsernameInput} value={username} type={"text"} placeholder={"Username"} className={"outline-none rounded-t-sm border-b-[1px] focus:shadow-[inset_0px_0px_2px_3px_rgba(59,130,246,0.6)] transition-shadow placeholder:text-center text-center h-10 text-xl text-black"} />
+                        <input onKeyDown={handleReturnPress} onChange={handlePasswordInput} value={password} type={"password"} placeholder={"Password"} className={"outline-none rounded-b-sm border-t-[1px] focus:shadow-[inset_0px_0px_2px_3px_rgba(59,130,246,0.6)] transition-shadow placeholder:text-center text-center h-10 text-xl text-black"} />
+                        {authLoading &&
+                            <div className={`absolute top-0 left-0 w-full h-full bg-gray-600 opacity-60`}>
+                                &nbsp;
+                            </div>
+                        }
+                    </div>
             </div>
         )
     }
 
     return (
         <div className='h-full min-h-[100vh] w-full text-simvoni flex text-center flex-col text-white bg-spacecadet '>
+            <h1 className='text-4xl lg:text-6xl xl:text-8xl mt-5'>debate<span className='text-frenchskyblue'>-</span>bro<span className='text-frenchskyblue'>.com</span></h1>
             {Error &&
                 <>
                     Got error from redis
@@ -66,9 +70,10 @@ export const AdminPage: NextPage<AdminPageProps> = ({ Topics, Categories, Error 
             }
             {!Error &&
                 <>
-
-                    <CategoriesContainer Categories={Categories} />
-                    <TopicsContainer Topics={Topics} />
+                    <div className={"flex flex-row space-x-2 justify-center mx-auto"}>
+                        <CategoriesContainer Categories={categories} updateCategories={setCategories} />
+                        <TopicsContainer Topics={topics} Categories={categories} />
+                    </div>
                 </>
             }
         </div>
