@@ -34,7 +34,7 @@ export const TopicsContainer: FC<TopicContainerProps> = ({ Topics, Categories })
         setNewTopicName("");
         setAdding(false);
         setSaving(false);
-    }, [newTopicName]);
+    }, [newTopicName, newTopicCat]);
 
     return (
         <div className={"text-simvoni bg-[whitesmoke] rounded-md p-2 shadow-lg flex flex-col w-1/3 relative"}>
