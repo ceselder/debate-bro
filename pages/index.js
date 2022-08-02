@@ -5,6 +5,7 @@ import useCall from '../hooks/useCall';
 import TopicSelect from '../components/TopicSelect';
 import Button from '../components/Button';
 import useLocalStorage from '../hooks/useLocalStorage';
+import { CreateRedisClient } from "./../lib/redis";
 
 export const SocketContext = createContext();
 const uuid = uuidv4()
@@ -24,7 +25,17 @@ const allTopics = [
 
 export const topicContext = createContext()
 
-export default function App() {
+const checkForNewTopics = (excluded, existing, fromDb) => {
+  const finalList = [ ...existing ];
+  const arrayToLookUp = existing.concat(excluded);
+  for (let dbTopic of fromDb) {
+    if (!arrayToLookUp.some(x => x.name === dbTopic.name)) 
+      finalList.push(dbTopic);
+  }
+  return finalList;
+}
+
+export default function App({ Topics, Categories }) {
     const [socket, setSocket] = useState(null)
     const [ streamReady,
             requestUserMedia,
@@ -32,14 +43,18 @@ export default function App() {
             ourStreamRef, 
             theirStreamRef] = useCall(uuid, socket)
 
-    const [availableTopics, setAvailableTopics] = useLocalStorage('availableTopics', allTopics.sort())
+
+    const [categories] = useState(Categories);
+    const [topics] = useState(Topics);
+    
+    const [availableTopics, setAvailableTopics] = useLocalStorage('availableTopics', topics)
     const [defendTopics, setDefendTopics] = useLocalStorage('defendTopics', [])
     const [attackTopics, setAttackTopics] = useLocalStorage('attackTopics', [])
+
     const [onlineUsers, setOnlineUsers] = useState(0)
 
     const [isDragging, setIsDragging] = useState()
     const [isSearching, setIsSearching] = useState(false)
-
 
     const [isMatched, setIsMatched] = useState(false)
     const [matchedTopic, setMatchedTopic] = useState('...')
@@ -116,6 +131,13 @@ export default function App() {
             })
         }
     }, [socket])
+
+    //Due to the way saved topics are loaded from localStorage, this dirty side effect is used to check for new
+    //topics that were created and add them to the list if a user already has a list of saved topics in localStorage
+    useEffect(() => {
+        let put = checkForNewTopics([...defendTopics, ...attackTopics], [...availableTopics], [...topics]);
+        setAvailableTopics(put);
+    }, []);
 
     return (
         <>
@@ -211,4 +233,39 @@ export default function App() {
 
         </>
     )
+}
+
+export const getStaticProps = async (context) => {
+    const redis = CreateRedisClient();
+
+    try {
+        await redis.connect();
+
+        let categories = await redis.LRANGE("debatebro:categories", 0, -1);
+        let topicsStringArray = await redis.LRANGE("debatebro:topics", 0, -1);
+        let topics= topicsStringArray.map(json => JSON.parse(json));
+        console.log(topics, categories);
+
+        return {
+            props: {
+                Topics: topics,
+                Categories: categories,
+                Error: false
+            }
+        };
+    } catch (e) {
+        console.log(`Redis error (probably)\n${e}`);
+        return {
+            props: {
+                Topics: [],
+                Categories: [],
+                Error: true
+            }
+        };
+    } finally {
+        if (redis) {
+            console.log("Attempting to gracefully terminate redis connection");
+            redis.disconnect();
+        }
+    }
 }
