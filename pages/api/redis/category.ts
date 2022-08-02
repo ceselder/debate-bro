@@ -17,7 +17,7 @@ export const CategoryRequestHandler = async (req: NextApiRequest, res: NextApiRe
 
         switch (req.method) {
             case "POST":
-                const addRes = await redis.RPUSH("debatebro:categories", JSON.stringify(req.body.data));
+                const addRes = await redis.RPUSH("debatebro:categories", req.body.data);
                 if (addRes < 1) {
                     return res.status(500).send("internal_server_error");
                 }
