@@ -10,7 +10,6 @@ Next.js + Socket.io + WebRTC (peer.js)
 
 ## TODO
 * Change drag library to react-kit since current library has no support for flex-wrap
-* Add avatar option as alternative to camera
 * Fix bug where you get a selected topic but no call spawns
 * Add a "currently in queue" counter
 * Add some philosophy topics
