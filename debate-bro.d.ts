@@ -1,8 +1,8 @@
 const topicCategories = [ "Social", "Economic" ] as const;
 
-declare type TopicCategory = typeof topicCategories[number];
+declare type TopicCategory = typeof topicCategories[number] | string;
 
 declare type Topic = {
-    Category: TopicCategory;
-    Name: string;
+    category: TopicCategory;
+    name: string;
 } 
