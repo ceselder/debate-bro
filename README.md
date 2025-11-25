@@ -1,5 +1,7 @@
 # Debate Bro
 
+**The site is not up anymore**
+
 Easily find someone to debate online in an omegle-style showoff
 
 [Go to site](https://debate-bro.com/)
